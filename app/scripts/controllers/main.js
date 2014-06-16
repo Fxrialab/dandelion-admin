@@ -1,32 +1,23 @@
 'use strict';
 
 angular.module('dandelionAdminApp')
-        .controller('MainCtrl', function($scope) {
-    $scope.awesomeThings = [
-        'HTML5 Boilerplate',
-        'AngularJS',
-        'Karma'
-    ];
-})
-        .controller('ManagerCtrl', function($scope) {
-    $scope.awesomeThings = [
-        'HTML5 Boilerplate',
-        'AngularJS',
-        'Karma'
-    ];
-})
-        .controller('Ctrl', function($scope) {
-//    $scope.value = 'Anytime';
-    $scope.specialValue = {
-        "id": "12345",
-        "value": "green"
+        .controller('MainCtrl', function($scope, ManagerService, ngDialog) {
+    $scope.profile = function(data) {
+        var data = {
+            id: data,
+        };
+        ManagerService.findByPk(data).success(function(data) {
+            $scope.update = data;
+            ngDialog.open({
+                template: 'app/views/manager/profile.html',
+                className: 'ngdialog-theme-plain',
+                scope: $scope,
+            });
+        });
+
     };
-    $scope.userInfo = {
-        person: {
-            mDate: '1967-10-07'
-        }
+    $scope.closeDialog = function() {
+        ngDialog.close();
     };
-    $scope.newValue = function(value) {
-        console.log(value);
-    }
 })
+

@@ -1,0 +1,20 @@
+<div class="box" ng-controller="CommentCtrl">
+    <div class="box-body table-responsive">
+        <table ng-table="tableParamsDialog" class="table table-bordered table-striped"  show-filter="true">
+            <tr ng-repeat="comment in $data">
+                <td width="30">
+                    <input type="checkbox" ng-model="checkboxes.items[comment.id]" />
+                </td>
+                <td data-title="'Content'"  sortable="'content'"  filter="{ 'content': 'text' }"><a href="javascript:void(0)" class="comment_{{comment.id}}" >{{comment.content}}</a></td>
+                <td data-title="'Post'" sortable="'post'"   filter="{ 'post': 'text' }"  class="comment_{{comment.id}}">{{comment.post}}</td>
+                <td data-title="'Published'" sortable="'published'"  filter="{ 'published': 'text' }" class="comment_{{comment.id}}">{{comment.published}}</td>
+                <td  data-title="'Action'">
+                    <a href="javascript:void(0)" ng-click="updateUser(comment.id)" ><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="javascript:void(0)" ng-click="deleteUser(comment.id)"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        </table>
+
+
+    </div><!-- /.box -->
+</div>

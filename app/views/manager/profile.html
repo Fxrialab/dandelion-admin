@@ -1,0 +1,46 @@
+
+<div class="box" ng-controller="ManagerCtrl">
+    <form class="form-horizontal" name="updateForm" ng-submit="submitProfile(updateForm.$valid)" novalidate>
+        <div class="box-body table-responsive">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <p class="help-block">{{msg}}</p>
+                <input type="hidden" name="id" value="{{update.id}}" ng-model="update.id">
+                <tr><td>Name</td><td>
+                        <input type="text" name="name" class="form-control" value="{{update.name}}" ng-model="update.name" ng-minlength="3" ng-maxlength="10" required>
+                        <p ng-show="updateForm.name.$error.minlength" class="help-block">Name is too short.</p>
+                        <p ng-show="updateForm.name.$error.maxlength" class="help-block">Name is too long.</p>
+                    </td></tr>
+                <tr><td>Username</td><td>
+                        <input type="text" name="username" class="form-control" value="{{update.username}}" ng-model="update.username" ng-minlength="3" ng-maxlength="10" ng-change="changeUsername()"  required>
+                        <p ng-show="updateForm.username.$error.minlength" class="help-block">Username is too short.</p>
+                        <p ng-show="updateForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+                        <p class="help-block" ng-show="showUsername">{{errorUsername}}</p>
+                    </td></tr>
+                <tr><td>Email</td><td>
+                        <input type="text" name="email" class="form-control" value="{{update.email}}" ng-model="update.email" ng-change="changeEmail()" required>
+                        <p ng-show="updateForm.email.$invalid && !updateForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                        <p class="help-block" ng-show="showEmail">{{errorEmail}}</p>
+                    </td></tr>
+                <tr><td>Password</td><td><a href="javascript:void(0)" ng-click="changePassword=!changePassword;" >Change password</a></td></tr>
+                <tr ng-init="changePassword=false; " ng-if="changePassword"><td>Current Password</td><td>
+                        <input type="password" name="currentPassword" class="form-control" ng-model="update.currentPassword"  ng-minlength="3" ng-maxlength="10" required>
+                        <p ng-show="updateForm.currentPassword.$error.minlength" class="help-block">Current Password is too short.</p>
+                        <p ng-show="updateForm.currentPassword.$error.maxlength" class="help-block">Current Password is too long.</p>
+                    </td></tr>
+                <tr ng-init="changePassword=false; " ng-if="changePassword"><td>New Password</td><td>
+                        <input type="password" name="newPassword" class="form-control" ng-model="update.newPassword" ng-minlength="3" ng-maxlength="10" required>
+                        <p ng-show="updateForm.currentPassword.$error.minlength" class="help-block">Current Password is too short.</p>
+                        <p ng-show="updateForm.currentPassword.$error.maxlength" class="help-block">Current Password is too long.</p>
+                    </td></tr>
+                <tr
+                    </tbody>
+            </table>
+
+        </div><!-- /.box -->
+        <div class="box-footer box-right">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" ng-click="closeDialog()" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</div>

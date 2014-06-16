@@ -11,10 +11,14 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css styles/vendor.css -->
         <!-- bower:css -->
+        <!--<link data-require="bootstrap-css@*" data-semver="2.3.2" rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />-->
         <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap-dropdown-checkbox.css">
         <link rel="stylesheet" href="app/bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="app/bower_components/ngDialog/css/ngDialog.css">
+        <link rel="stylesheet" href="app/bower_components/ngDialog/css/ngDialog-theme-default.css">
+        <link rel="stylesheet" href="app/bower_components/ngDialog/css/ngDialog-theme-plain.css">
+        <link rel="stylesheet" href="app/bower_components/ng-table/ng-table.css">
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css({.tmp,app}) styles/main.css -->
@@ -24,11 +28,10 @@
         <link rel="stylesheet" href="app/styles/font-awesome.css">
         <link rel="stylesheet" href="app/styles/icons.min.css">
         <link rel="stylesheet" href="app/styles/tables.css">
-        <link rel="stylesheet" href="app/styles/ui.datepicker.css">
 
         <!-- endbuild -->
     </head>
-    <body ng-app="dandelionAdminApp" class="skin-blue">
+    <body ng-app="dandelionAdminApp" class="skin-blue" ng-controller='MainCtrl'>
         <!--[if lt IE 7]>
           <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -238,16 +241,16 @@
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Vinh Huynh <i class="caret"></i></span>
+                                <span class="fullName">{{fullName}}<i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
                                     <img src="images/avatar.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        Vinh Huynh - Web Developer
+                                        <span class="fullName">Vinh Huynh</span>
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
@@ -266,10 +269,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="javascript:void(0)" ng-click="profile(userID)" class="btn btn-default btn-flat">Profile</a>
                                     </div>
-                                    <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <div class="pull-right" ng-controller="LoginCtrl">
+                                        <a href="javascript:void(0)" ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -288,7 +291,7 @@
                             <img src="images/avatar.png" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p>Hello, Vinh Huynh</p>
+                            <p>Hello, <span class="fullName">{{fullName}}</span></p>
 
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
@@ -311,6 +314,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#/search">
+                                <i class="fa  fa-search"></i> <span>Advanced search</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#/manager">
                                 <i class="fa fa-user"></i> <span>Manager</span> <small class="badge pull-right bg-green">1234</small>
                             </a>
@@ -327,20 +335,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#/posts">
-                                <i class="fa  fa-pencil-square-o"></i> <span>Posts</span>
-                                <small class="badge pull-right bg-yellow">12</small>
-                            </a>
-                        </li>
-                        <li>
                             <a href="#/photos">
                                 <i class="fa fa-picture-o"></i> <span>Photos</span>
-                                <small class="badge pull-right bg-yellow">12</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#/comments">
-                                <i class="fa fa-comments"></i> <span>Comments</span>
                                 <small class="badge pull-right bg-yellow">12</small>
                             </a>
                         </li>
@@ -356,6 +352,7 @@
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side" ng-view="">
+
             </aside>
             <!-- Left side column. contains the logo and sidebar -->
 
@@ -374,19 +371,27 @@
         <script src="app/bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
         <script src="app/bower_components/angular/angular.js"></script>
         <script src="app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="app/bower_components/bootstrap/dist/js/bootstrap-dropdown-checkbox.min.js"></script>
         <script src="app/bower_components/angular-resource/angular-resource.js"></script>
         <script src="app/bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="app/bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="app/bower_components/angular-route/angular-route.js"></script>
+        <script src="app/bower_components/ngDialog/js/ngDialog.js"></script>
+        <script src="app/bower_components/ng-table/ng-table.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="app/scripts/init.js"></script>
+        <script src="app/scripts/libs/init.js"></script>
         <script src="app/scripts/app.js"></script>
+        <script src="app/scripts/controllers/loginCtrl.js"></script>
         <script src="app/scripts/controllers/main.js"></script>
-        <script src="app/scripts/date.js"></script>
-
+        <script src="app/scripts/controllers/userCtrl.js"></script>
+        <script src="app/scripts/controllers/statusCtrl.js"></script>
+        <script src="app/scripts/controllers/commentCtrl.js"></script>
+        <script src="app/scripts/controllers/managerCtrl.js"></script>
+        <script src="app/scripts/controllers/searchCtrl.js"></script>
+        <script src="app/scripts/services/userService.js"></script>
+        <script src="app/scripts/services/managerService.js"></script>
+        <script src="app/scripts/services/searchService.js"></script>
     </body>
 </html>

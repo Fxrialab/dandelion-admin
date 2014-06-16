@@ -1,0 +1,42 @@
+
+<form class="form-horizontal" name="login" ng-submit="loginForm(login.$valid)" novalidate>
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title">{{title}}</h3>
+        </div>
+        <div class="box-body">
+            <div class="row-fluid">
+                <div class="form-group" ng-class="{ 'has-error' : login.username.$invalid && !login.username.$pristine }"  ng-show="username">
+                    <label class="col-lg-2">Username</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="username" class="form-control"  ng-model="loginForm.username" ng-minlength="3" ng-maxlength="10"  required placeholder="Enter username">
+                        <p ng-show="login.username.$error.minlength" class="help-block">Username is too short.</p>
+                        <p ng-show="login.username.$error.maxlength" class="help-block">Username is too long.</p>
+                        <p ng-show="errorUsername" class="help-block">Your username is not exist. Please sign up !</p>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : login.password.$invalid && !login.password.$pristine }" ng-show="password">
+                    <label class="col-lg-2">Password</label>
+                    <div class="col-lg-10">
+                        <input type="password" name="password" class="form-control" value="" ng-model="loginForm.password" required placeholder="Enter password">
+                        <p ng-show="login.password.$invalid && !login.password.$pristine" class="help-block">You password is required.</p>
+                        <p ng-show="errorPassword" class="help-block">Your password is incorrect.</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : login.email.$invalid && !login.email.$pristine }" ng-show="email">
+                    <div class="help-block col-lg-12">{{msg}}</div>
+                    <label class="col-lg-2">Email</label>
+                    <div class="col-lg-10">
+                        <input type="email" name="email" class="form-control" value="{{data.email}}" ng-model="loginForm.email"  required  placeholder="Enter email">
+                        <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer box-right">
+                <a href='javascript:void(0)' ng-click='forgotPassword(forgot)'>{{text}}</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>

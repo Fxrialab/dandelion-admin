@@ -1,41 +1,44 @@
 'use strict';
 
-angular
-        .module('dandelionAdminApp', [
+var app = angular.module('dandelionAdminApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
-])
-        .config(function($routeProvider) {
+    'ngRoute',
+    'ngDialog',
+    'ngTable',
+]);
+var options = {};
+options.api = {};
+options.api.base_url = "http://dandelion-admin.local/php/";
+app.config(function($routeProvider) {
     $routeProvider
+            .when('/login', {
+        controller: 'LoginCtrl',
+        templateUrl: 'app/views/main.html',
+    })
             .when('/', {
         templateUrl: 'app/views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        access: {requiredAuthentication: true}
     })
             .when('/manager', {
         templateUrl: 'app/views/manager/index.html',
-        controller: 'ManagerCtrl'
-    })
-            .when('/manager/add', {
-        templateUrl: 'app/views/manager/add.html',
-        controller: 'ManagerCtrl'
-    })
-            .when('/manager/detail/123', {
-        templateUrl: 'app/views/manager/detail.html',
-        controller: 'ManagerCtrl'
+        controller: 'ManagerIndexCtrl',
+        access: {requiredAuthentication: true}
     })
             .when('/users', {
         templateUrl: 'app/views/users/index.html',
-        controller: 'ManagerCtrl'
+        controller: 'UserCtrl',
+        access: {requiredAuthentication: true}
     })
-            .when('/manager/user/123', {
-        templateUrl: 'app/views/manager/detail.html',
-        controller: 'ManagerCtrl'
+            .when('/search', {
+        templateUrl: 'app/views/posts/index.html',
+        controller: 'SearchCtrl'
     })
             .when('/posts', {
         templateUrl: 'app/views/posts/index.html',
-        controller: 'ManagerCtrl'
+        controller: 'StatusCtrl'
     })
             .when('/themes', {
         templateUrl: 'app/views/themes/index.html',
@@ -61,7 +64,21 @@ angular
         templateUrl: 'app/views/settings/edit.html',
         controller: 'ManagerCtrl'
     })
+
             .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
+    });
+});
+app.config(function($httpProvider) {
+    $httpProvider.interceptors.push('TokenInterceptor');
+});
+
+app.run(function($rootScope, $location, $window, AuthService) {
+    $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
+        //redirect only if both isAuthenticated is false and no token is set
+        if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication
+                && !AuthService.isAuthenticated && !$window.sessionStorage.token) {
+            $location.path("/login");
+        }
     });
 });
