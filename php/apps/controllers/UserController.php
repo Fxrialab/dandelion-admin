@@ -17,6 +17,7 @@ class UserController extends AppController
         {
             $countStatus = $this->facade->count('status', array('owner' => $model->recordID));
             $countComment = $this->facade->count('comment', array('actor' => $model->recordID));
+            $countPhoto = $this->facade->count('photo', array('actor' => $model->recordID));
             echo json_encode(array(
                 'id' => $model->recordID,
                 'username' => $model->data->username,
@@ -25,6 +26,7 @@ class UserController extends AppController
                 'status' => $model->data->status,
                 'countStatus' => $countStatus,
                 'countComment' => $countComment,
+                'countPhoto' => $countPhoto,
                 'friends' => '1234',
                 'role' => $model->data->role));
         }
@@ -54,20 +56,25 @@ class UserController extends AppController
         $obj = new ObjectHandler();
         $model = $this->facade->findAll('user', $obj);
         $arr = array();
-        foreach ($model as $key => $value)
+        if (!empty($model))
         {
-            $countStatus = $this->facade->count('status', array('owner' => $value->recordID));
-            $countComment = $this->facade->count('comment', array('actor' => $value->recordID));
-            $arr[] = array(
-                'id' => $value->recordID,
-                'username' => $value->data->username,
-                'email' => $value->data->email,
-                'name' => $value->data->fullName,
-                'status' => $value->data->status,
-                'countStatus' => $countStatus,
-                'countComment' => $countComment,
-                'friends' => '1234',
-                'role' => $value->data->role);
+            foreach ($model as $key => $value)
+            {
+                $countStatus = $this->facade->count('status', array('owner' => $value->recordID));
+                $countComment = $this->facade->count('comment', array('actor' => $value->recordID));
+                $countPhoto = $this->facade->count('photo', array('actor' => $value->recordID));
+                $arr[] = array(
+                    'id' => $value->recordID,
+                    'username' => $value->data->username,
+                    'email' => $value->data->email,
+                    'name' => $value->data->fullName,
+                    'status' => $value->data->status,
+                    'countStatus' => $countStatus,
+                    'countComment' => $countComment,
+                    'countPhoto' => $countPhoto,
+                    'friends' => '1234',
+                    'role' => $value->data->role);
+            }
         }
 
         echo json_encode($arr);

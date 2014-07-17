@@ -1,14 +1,17 @@
 'use strict';
 
 var app = angular.module('dandelionAdminApp');
-app.controller('UserCtrl', function($scope, $http, ngDialog, $filter, $q, ngTableParams, $location, UserService, StatusService, AuthService) {
-    if (AuthService.isAdmin == true) {
+app.controller('UserCtrl', function($scope, $http, ngDialog, $filter, $q, ngTableParams, $location, userService, authService) {
+    if (authService.isAdmin == true) {
         getUser();
     }
     function getUser() {
+        $scope.loadingPost = false;
+        $scope.loadingComment = false;
+        $scope.loadingPhoto = false;
         $scope.loading = true;
         $scope.load = false;
-        UserService.findAll()
+        userService.findAll()
                 .success(function(custs) {
             $scope.loading = false;
             $scope.load = true;
@@ -76,25 +79,8 @@ app.controller('UserCtrl', function($scope, $http, ngDialog, $filter, $q, ngTabl
         // grayed checkbox
         angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
     }, true);
-
-    $scope.deleteUser = function(user) {
-        if (confirm("Are you sure to delete this line?")) {
-            var data = {
-                id: user,
-            };
-            $http.post(href + "site/deleteAngular", data).success(function(data) {
-                if (data == 1) {
-                    getMember();
-                } else {
-                    alert('No delete');
-                }
-
-
-            });
-        }
-    };
     $scope.detailUser = function(user) {
-        UserService.findByPk(user).success(function(data) {
+        userService.findByPk(user).success(function(data) {
             $scope.user = data;
         });
         ngDialog.open({
@@ -104,7 +90,7 @@ app.controller('UserCtrl', function($scope, $http, ngDialog, $filter, $q, ngTabl
         });
     };
     $scope.status = function(user) {
-        UserService.status(user).success(function(data) {
+        userService.status(user).success(function(data) {
             $(".status_" + data.id).html(data.status);
         });
     };

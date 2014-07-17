@@ -36,7 +36,7 @@
                             <td data-title="'Username'" sortable="'username'"  filter="{ 'username': 'text' }"><a href="javascript:void(0)" ng-click="detailUser(admin.id)" class="username_{{admin.id}}" >{{admin.username}}</a></td>
                             <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }">{{admin.email}}</td>
                             <td data-title="'Role'" sortable="'role'">{{admin.role}}</td>
-                            <td data-title="'Status'" sortable="'status'"><a href="javascript:void(0)" ng-click="status(user.id)" class="status_{{admin.id}}">{{admin.status}}</a></td>
+                            <td data-title="'Status'" sortable="'status'"><a href="javascript:void(0)" ng-click="status(admin.id)" class="status_{{admin.id}}">{{admin.status}}</a></td>
 <!--                            <td  data-title="'Action'">
                                 <a href="javascript:void(0)" ng-click="update(admin.id)" ><i class="glyphicon glyphicon-edit"></i></a>
                                 <a href="javascript:void(0)" ng-click="del(admin.id)"><i class="glyphicon glyphicon-trash"></i></a>

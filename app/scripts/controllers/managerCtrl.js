@@ -1,15 +1,15 @@
 'use strict';
 
 var app = angular.module('dandelionAdminApp');
-app.controller('ManagerIndexCtrl', function($scope, $http, ngDialog, $filter, $location, $q, ngTableParams, ManagerService, AuthService) {
-    if (AuthService.isAdmin == true) {
+app.controller('ManagerIndexCtrl', function($scope, $http, ngDialog, $filter, $location, $q, ngTableParams, managerService, authService) {
+    if (authService.isAdmin == true) {
         getManager();
     }
 
     function getManager() {
         $scope.loading = true;
         $scope.load = false;
-        ManagerService.findAll()
+        managerService.findAll()
                 .success(function(custs) {
             var data = custs;
             $scope.loading = false;
@@ -49,7 +49,7 @@ app.controller('ManagerIndexCtrl', function($scope, $http, ngDialog, $filter, $l
 
     }
 })
-app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $location, $q, ngTableParams, ManagerService, AuthService) {
+app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $location, $q, ngTableParams, managerService, authService) {
 
     $scope.checkboxes = {'checked': false, items: {}};
 
@@ -83,7 +83,7 @@ app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $locati
         var data = {
             username: $scope.submitForm.username,
         };
-        ManagerService.checkUsername(data).success(function(data) {
+        managerService.checkUsername(data).success(function(data) {
             if (data) {
                 $scope.showUsername = true;
                 $scope.errorUsername = data;
@@ -99,7 +99,7 @@ app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $locati
         var data = {
             email: $scope.submitForm.email,
         };
-        ManagerService.checkEmail(data).success(function(data) {
+        managerService.checkEmail(data).success(function(data) {
             if (data) {
                 $scope.showEmail = true;
                 $scope.errorEmail = data;
@@ -120,7 +120,7 @@ app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $locati
                 email: $scope.submitForm.email,
                 password: $scope.submitForm.password
             };
-            ManagerService.register(data).success(function(data, element) {
+            managerService.register(data).success(function(data, element) {
                 ngDialog.close();
                 $location.path("/manager");
             });
@@ -138,7 +138,7 @@ app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $locati
                 currentPassword: $scope.update.currentPassword,
                 newPassword: $scope.update.newPassword
             };
-            ManagerService.update(data).success(function(data) {
+            managerService.update(data).success(function(data) {
                 $scope.msg = data;
             });
         }
@@ -149,7 +149,7 @@ app.controller('ManagerCtrl', function($scope, $http, ngDialog, $filter, $locati
             var data = {
                 id: admin,
             };
-            ManagerService.del(data).success(function(data) {
+            managerService.del(data).success(function(data) {
                 if (data == 1) {
                     $('.admin_' + admin).remove();
                 } else {

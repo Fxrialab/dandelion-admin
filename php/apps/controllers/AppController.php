@@ -7,6 +7,7 @@
  * Project: UserWired Network - Version: beta
  */
 require_once("Controller.php");
+require_once("UploadHandler.php");
 
 class AppController extends Controller
 {

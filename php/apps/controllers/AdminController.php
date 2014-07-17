@@ -69,7 +69,7 @@ class AdminController extends AppController
         {
             $username = $data->username;
             $password = $data->password;
-            $admin = $this->facade->findByAttributes('admin', array('username' => $username, 'role' => 'admin'));
+            $admin = $this->facade->findByAttributes('admin', array('username' => $username, 'status' => 1));
             if (!empty($admin))
             {
                 if ($this->EncryptionHelper->CheckPassword($password, $admin->data->password))
@@ -77,6 +77,7 @@ class AdminController extends AppController
                     $this->f3->set('SESSION.userID', $admin->recordID);
                     $this->f3->set('SESSION.username', $admin->data->username);
                     $this->f3->set('SESSION.email', $admin->data->email);
+                    $this->f3->set('SESSION.role', $admin->data->role);
                     $this->f3->set('SESSION.fullName', $admin->data->fullName);
 
                     echo json_encode(array(

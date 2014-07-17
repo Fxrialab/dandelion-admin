@@ -1,5 +1,5 @@
 angular.module('dandelionAdminApp')
-        .factory('AuthService', function() {
+        .factory('authService', function() {
     var auth = {
         isAuthenticated: false,
         isAdmin: false
@@ -8,7 +8,7 @@ angular.module('dandelionAdminApp')
     return auth;
 })
 
-        .factory('TokenInterceptor', function($q, $window, $location, AuthService) {
+        .factory('tokenInterceptor', function($q, $window, $location, authService) {
     return {
         request: function(config) {
             config.headers = config.headers || {};
@@ -22,16 +22,16 @@ angular.module('dandelionAdminApp')
         },
         /* Set Authentication.isAuthenticated to true if 200 received */
         response: function(response) {
-            if (response != null && response.status == 200 && $window.sessionStorage.token && !AuthService.isAuthenticated) {
-                AuthService.isAuthenticated = true;
+            if (response != null && response.status == 200 && $window.sessionStorage.token && !authService.isAuthenticated) {
+                authService.isAuthenticated = true;
             }
             return response || $q.when(response);
         },
         /* Revoke client authentication if 401 is received */
         responseError: function(rejection) {
-            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || AuthService.isAuthenticated)) {
+            if (rejection != null && rejection.status === 401 && ($window.sessionStorage.token || authService.isAuthenticated)) {
                 delete $window.sessionStorage.token;
-                AuthService.isAuthenticated = false;
+                authService.isAuthenticated = false;
                 $location.path("/login");
             }
 
@@ -40,7 +40,7 @@ angular.module('dandelionAdminApp')
     };
 })
 
-        .factory('ManagerService', function($http) {
+        .factory('managerService', function($http) {
     return {
         findAll: function() {
             return $http.post(options.api.base_url + 'admin');

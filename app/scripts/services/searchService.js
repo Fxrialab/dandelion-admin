@@ -1,17 +1,16 @@
 angular.module('dandelionAdminApp')
-        .factory('SearchService', function($http) {
+        .factory('searchService', function($http) {
     return {
-        search: function(k, comment, post, spam, unactivity, like, block) {
+        advancedSearch: function(k, user, comment, post, from, to) {
             var data = {
                 keyword: k,
-                spam: spam,
+                user: user,
                 post: post,
                 comment: comment,
-                unactivity: unactivity,
-                like: like,
-                block: block
+                from: from,
+                to: to
             };
-            return $http.post(options.api.base_url + 'search', data);
-        },
+            return $http.post(options.api.base_url + 'advancedSearch', data);
+        }
     }
 })

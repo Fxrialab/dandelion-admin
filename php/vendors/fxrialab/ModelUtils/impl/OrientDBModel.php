@@ -183,6 +183,13 @@ class OrientDBModel implements IDataModel
         return $queryResult[0]->data->COUNT;
     }
 
+    public function countAll()
+    {
+        $sql = "SELECT COUNT(*) FROM " . $this->_className;
+        $queryResult = $this->_db->command(OrientDB::COMMAND_QUERY, $sql);
+        return $queryResult[0]->data->COUNT;
+    }
+
     /**
      * Delete record is determined by recordID
      *
@@ -270,13 +277,11 @@ class OrientDBModel implements IDataModel
                 $operator = " AND ";
                 foreach ($arrays as $key => $v)
                 {
-        
                     $conditions = $conditions . $operator . $key . " = ?";
-                    
                     $values[] = $v;
                 }
                 $conditions = substr($conditions, strlen($operator));
-               
+
 
                 for ($i = 0; $i < count($values); $i++)
                 {
@@ -303,6 +308,8 @@ class OrientDBModel implements IDataModel
 
     private function getString($var)
     {
+
+
         $toFind = "GREMLIN";
         $array = array();
         for ($i = 0; $i < count($var); $i++)
@@ -315,7 +322,8 @@ class OrientDBModel implements IDataModel
         return $array;
     }
 
-    private function getContentResult($resultGremlin, $className)
+    private function getContentResult(
+    $resultGremlin, $className)
     {
         $toFirstFind = 'com.tinkerpop.blueprints.impls.orient.OrientVertex|#';
         $toSecondFind = '[#';
@@ -361,7 +369,7 @@ class OrientDBModel implements IDataModel
                     else
                     {
                         /* $replace[$i] = str_replace(array('"', '[', ']'), '', $resultGremlin[$i]);
-                          $arrayResult = explode(',', $replace[$i]); */
+                          $arrayResult = explode(',   ', $replace[$i]); */
                         return false;
                     }
                 }

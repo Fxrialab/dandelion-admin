@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('dandelionAdminApp');
-app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScope, $location, ManagerService, AuthService) {
+app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScope, $location, managerService, authService) {
     getLogin();
     function getLogin() {
         $scope.errorUsername = false;
@@ -11,6 +11,7 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
         $scope.forgot = true;
         $scope.text = 'Forgot password';
         $scope.title = 'Login';
+        $scope.loading = false;
         ngDialog.open({
             template: 'app/views/manager/login.html',
             className: 'ngdialog-theme-plain',
@@ -26,6 +27,7 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
             $scope.password = false;
             $scope.email = true;
             $scope.forgot = false;
+            $scope.loading = false;
             $scope.text = 'Cancel';
             $scope.title = 'Forgot password';
         } else {
@@ -35,6 +37,7 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
             $scope.forgot = true;
             $scope.text = 'Forgot password';
             $scope.title = 'Login';
+            $scope.loading = false;
         }
 
     }
@@ -45,8 +48,9 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
         var username = $scope.loginForm.username;
         var password = $scope.loginForm.password;
         var email = $scope.loginForm.email;
+        $scope.loading = true;
         if (email) {
-            ManagerService.forgotPassword(email)
+            managerService.forgotPassword(email)
                     .success(function(data) {
                 if (data) {
                     $scope.msg = data.msg;
@@ -54,22 +58,24 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
             })
         } else {
             if (username != null && password != null) {
-                ManagerService.login(username, password)
+                managerService.login(username, password)
                         .success(function(data) {
+                    $scope.loading = false;
                     if (data.error == 'errorUsername') {
                         $scope.errorUsername = true;
                     } else if (data.error == 'errorPassword') {
                         $scope.errorPassword = true;
                     } else {
-                        AuthService.isAuthenticated = true;
-                        AuthService.isAdmin = true;
+                        authService.isAuthenticated = true;
+                        authService.isAdmin = true;
                         $window.sessionStorage.token = data.token;
                         $rootScope.userID = data.userID;
                         $rootScope.username = data.username;
                         $rootScope.email = data.email;
                         $rootScope.fullName = data.fullName;
                         ngDialog.close();
-                        $location.path("/search");
+                        $location.path("/");
+                        
                     }
 
                 })
@@ -77,10 +83,10 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
         }
     }
     $scope.logout = function logOut() {
-        if (ManagerService.isAuthenticated) {
-            ManagerService.logout().success(function(data) {
-                AuthService.isAuthenticated = false;
-                AuthService.isAdmin = false;
+        if (managerService.isAuthenticated) {
+            managerService.logout().success(function(data) {
+                authService.isAuthenticated = false;
+                authService.isAdmin = false;
                 delete $window.sessionStorage.token;
                 $location.path("/login");
             }).error(function(status, data) {

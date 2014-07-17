@@ -17,6 +17,6 @@ $map = array(
     'like' => '24',
     'group' => '25',
     'groupMember' => '26',
-    'admin' => '28',
-    'search' => '29'
+    'admin' => '27',
+    'themes' => '28'
 );

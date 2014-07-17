@@ -10,102 +10,47 @@ class SearchController extends AppController
         parent::__construct();
     }
 
-    public static function findDataComment($command, $data)
-    {
-        $result = Model::get('comment')->callGremlin($command);
-        if (!empty($result))
-        {
-            foreach ($result as $value)
-            {
-                $rs = Model::get('comment')->callGremlin("current.map", array('@rid' => '#' . $value));
-                $user = Model::get('user')->find($rs[0]->actor);
-                if (!empty($data->date))
-                {
-                    if ($data->from == date('Y-m-d', $rs[0]->published))
-                        return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                    else
-                        return FALSE;
-                }
-                else if (!empty($data->from) && (!empty($data->to)))
-                {
-                    if ($data->from <= date('Y-m-d', $rs[0]->published) and $data->to >= date('Y-m-d', $rs[0]->published))
-                        return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                    else
-                        return FALSE;
-                }
-                else
-                {
-                    return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                }
-            }
-        }
-        else
-            return FALSE;
-    }
-
-    public static function findDataStatus($command, $data)
-    {
-        $result = Model::get('status')->callGremlin($command);
-        if (!empty($result))
-        {
-            foreach ($result as $value)
-            {
-                $rs = Model::get('status')->callGremlin("current.map", array('@rid' => '#' . $value));
-                $user = Model::get('user')->find($rs[0]->actor);
-                if (!empty($data->date))
-                {
-                    if ($data->from == date('Y-m-d', $rs[0]->published))
-                        return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                    else
-                        return FALSE;
-                }
-                else if (!empty($data->from) && (!empty($data->to)))
-                {
-                    if ($data->from <= date('Y-m-d', $rs[0]->published) and $data->to >= date('Y-m-d', $rs[0]->published))
-                        return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                    else
-                        return FALSE;
-                }
-                else
-                {
-                    return array('content' => $rs[0]->content, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
-                }
-            }
-        }
-        else
-            return FALSE;
-    }
-
-    public function search()
+    public function advancedSearch()
     {
         $data = json_decode(file_get_contents("php://input"));
         if (!empty($data->keyword))
         {
             $keyword = $data->keyword;
             $arr = array();
-            $command = $this->getSearchCommand(array('content'), $keyword);
+            $command = $this->getSearchCommand(array('text'), $keyword);
             if (!empty($data->comment))
-            {
-                $comment = $this->findDataComment($command, $data);
-                if ($comment == FALSE)
-                    $arr = '';
-                else
-                    $arr[] = $comment;
-            }
+                $result = Model::get('search')->callGremlin($command, array('table' => 'comment'));
             else if (!empty($data->post))
+                $result = Model::get('search')->callGremlin($command, array('table' => 'status'));
+            else
+                $result = Model::get('search')->callGremlin($command);
+            if (!empty($result))
             {
-                $status = $this->findDataStatus($command, $data);
-                if ($status == FALSE)
-                    $arr = '';
-                else
-                    $arr[] = $status;
-            } else
-            {
-                $comment = $this->findDataComment($command, $data);
-                $status = $this->findDataStatus($command, $data);
-                $arr[] = $comment;
-
-                $arr[] = $status;
+                foreach ($result as $value)
+                {
+                    $rs = Model::get('search')->callGremlin("current.map", array('@rid' => '#' . $value));
+                    $published = date('Y-m-d', $rs[0]->published);
+                    $user = $this->facade->findByPk('user', $rs[0]->userID);
+                    if (!empty($data->from))
+                    {
+                        if ($data->from == $published)
+                            $arr[] = array('content' => $rs[0]->text, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
+                    }
+                    else if (!empty($data->to))
+                    {
+                        if ($published <= $data->to)
+                            $arr[] = array('content' => $rs[0]->text, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
+                    }
+                    else if (!empty($data->from) && !empty($data->to))
+                    {
+                        if ($published >= $data->from && $published <= $data->to)
+                            $arr[] = array('content' => $rs[0]->text, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
+                    }
+                    else
+                    {
+                        $arr[] = array('content' => $rs[0]->text, 'name' => $user->data->fullName, 'published' => date('Y/m/d', $rs[0]->published));
+                    }
+                }
             }
             echo json_encode($arr);
         }

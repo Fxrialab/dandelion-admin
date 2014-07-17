@@ -29,14 +29,15 @@
                             <td data-title="'Username'" sortable="'username'"  filter="{ 'username': 'text' }"><a href="javascript:void(0)" ng-click="detailUser(user.id)" class="username_{{user.id}}" >{{user.username}}</a></td>
                             <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }">{{user.email}}</td>
                             <td data-title="'Friends'">{{user.friends}}</td>
-                            <td data-title="'Count Status'" ng-controller="StatusCtrl"><a href="javascript:void(0)" ng-click="listStatus(user.id)">{{user.countStatus}}</a></td>
-                            <td data-title="'Count Comments'"  ng-controller="CommentCtrl"><a href="javascript:void(0)" ng-click="listComment(user.id)">{{user.countComment}}</a></td>
+                            <td data-title="'Count Status'" ng-controller="PostCtrl"><a href="javascript:void(0)" ng-click="listPost(user.id)">{{user.countStatus}}</a> <div class="loading1" ng-show="loadingPost"></div></td>
+                            <td data-title="'Count Comment'"  ng-controller="CommentCtrl"><a href="javascript:void(0)" ng-click="listComment(user.id)">{{user.countComment}}</a> <div class="loading1" ng-show="loadingComment"></div></td>
+                            <td data-title="'Count Photo'" ng-controller="PhotoCtrl"><a href="javascript:void(0)" ng-click="listPhoto(user.id)">{{user.countPhoto}}</a> <div class="loading1" ng-show="loadingPhoto"></div></td>
                             <td data-title="'Role'" sortable="'role'">{{user.role}}</td>
                             <td data-title="'Status'" sortable="'status'"><a href="javascript:void(0)" ng-click="status(user.id)" class="status_{{user.id}}">{{user.status}}</a></td>
-<!--                            <td  data-title="'Action'">
-                                <a href="javascript:void(0)" ng-click="updateUser(user.id)" ><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="javascript:void(0)" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-trash"></i></a>
-                            </td>-->
+                            <!--                            <td  data-title="'Action'">
+                                                            <a href="javascript:void(0)" ng-click="updateUser(user.id)" ><i class="glyphicon glyphicon-edit"></i></a>
+                                                            <a href="javascript:void(0)" ng-click="deleteUser(user.id)"><i class="glyphicon glyphicon-trash"></i></a>
+                                                        </td>-->
                         </tr>
                     </table>
 

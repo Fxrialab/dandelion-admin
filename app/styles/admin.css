@@ -3416,3 +3416,13 @@ fieldset[disabled] .btn-vk.active {
 .box-right{
     text-align: right;
 }
+.loading{
+    background: url(../images/iconloading.gif);
+    width:128px;
+    height: 15px;
+}
+.loading1{
+    background: url(../images/iconloading3.gif);
+    width:16px;
+    height: 11px;
+}

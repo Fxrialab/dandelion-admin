@@ -1,11 +1,13 @@
 'use strict';
 
 var app = angular.module('dandelionAdminApp');
-app.controller('CommentCtrl', function($scope, $http, ngDialog, $filter, ngTableParams, CommentService) {
+app.controller('CommentCtrl', function($scope, $http, ngDialog, $filter, ngTableParams, commentService) {
     $scope.listComment = function(user) {
         $scope.value = true;
-        CommentService.findAll(user).success(function(data) {
+        $scope.loadingComment = true;
+        commentService.findAll(user).success(function(data) {
             var data = data;
+            $scope.loadingComment = false;
             $scope.tableParamsDialog = new ngTableParams({
                 page: 1, // show first page
                 count: 10, // count per page

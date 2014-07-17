@@ -2,10 +2,12 @@
 
 var app = angular.module('dandelionAdminApp');
 
-app.controller('StatusCtrl', function($scope, $http, ngDialog, $filter, ngTableParams, StatusService, SearchService) {
-    $scope.listStatus = function(user) {
+app.controller('PostCtrl', function($scope, $http, ngDialog, $filter, ngTableParams, postService, searchService) {
+    $scope.listPost = function(user) {
         $scope.value = true;
-        StatusService.findAll(user).success(function(data) {
+        $scope.loadingPost = true;
+        postService.findAll(user).success(function(data) {
+            $scope.loadingPost = false;
             var data = data;
             $scope.tableParamsDialog = new ngTableParams({
                 page: 1, // show first page
@@ -51,7 +53,7 @@ app.controller('StatusCtrl', function($scope, $http, ngDialog, $filter, ngTableP
         var from = $scope.search.from;
         var to = $scope.search.to;
         $scope.loading = true;
-        SearchService.search(keyword, comment, post, from, to).success(function(data) {
+        searchService.search(keyword, comment, post, from, to).success(function(data) {
             $scope.result = data;
             $scope.loading = false;
             $scope.load = true;

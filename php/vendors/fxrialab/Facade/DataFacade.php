@@ -310,4 +310,12 @@ class DataFacade
         }
     }
 
+    public function countAll($model)
+    {
+        if (!empty($model))
+            return Model::get($model)->countAll();
+        else
+            return false;
+    }
+
 }

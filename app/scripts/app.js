@@ -7,10 +7,12 @@ var app = angular.module('dandelionAdminApp', [
     'ngRoute',
     'ngDialog',
     'ngTable',
+    'blueimp.fileupload'
 ]);
 var options = {};
 options.api = {};
 options.api.base_url = "http://dandelion-admin.local/php/";
+//options.api.base_url = "http://admin.dandelionet.org/php/";
 app.config(function($routeProvider) {
     $routeProvider
             .when('/login', {
@@ -32,28 +34,23 @@ app.config(function($routeProvider) {
         controller: 'UserCtrl',
         access: {requiredAuthentication: true}
     })
-            .when('/search', {
-        templateUrl: 'app/views/posts/index.html',
-        controller: 'SearchCtrl'
+            .when('/advancedSearch', {
+        templateUrl: 'app/views/search/advancedSearch.html',
+        controller: 'SearchCtrl',
+        access: {requiredAuthentication: true}
     })
-            .when('/posts', {
-        templateUrl: 'app/views/posts/index.html',
-        controller: 'StatusCtrl'
-    })
+//            .when('/search', {
+//        templateUrl: 'app/views/search/search.html',
+//        controller: 'SearchCtrl',
+//        access: {requiredAuthentication: true}
+//    })
             .when('/themes', {
         templateUrl: 'app/views/themes/index.html',
-        controller: 'ManagerCtrl'
-    })
-            .when('/themes/detail/1', {
-        templateUrl: 'app/views/themes/detail.html',
-        controller: 'ManagerCtrl'
+        controller: 'ThemeIndexCtrl',
+        access: {requiredAuthentication: true}
     })
             .when('/photos', {
         templateUrl: 'app/views/photos/index.html',
-        controller: 'ManagerCtrl'
-    })
-            .when('/comments', {
-        templateUrl: 'app/views/comments/index.html',
         controller: 'ManagerCtrl'
     })
             .when('/settings', {
@@ -70,15 +67,18 @@ app.config(function($routeProvider) {
     });
 });
 app.config(function($httpProvider) {
-    $httpProvider.interceptors.push('TokenInterceptor');
+    $httpProvider.interceptors.push('tokenInterceptor');
 });
 
-app.run(function($rootScope, $location, $window, AuthService) {
+app.run(function($rootScope, $location, $window, authService) {
     $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
         //redirect only if both isAuthenticated is false and no token is set
         if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication
-                && !AuthService.isAuthenticated && !$window.sessionStorage.token) {
+                && !authService.isAuthenticated && !$window.sessionStorage.token) {
             $location.path("/login");
         }
     });
 });
+app.config(function($httpProvider, fileUploadProvider) {
+}
+)

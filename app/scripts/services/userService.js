@@ -1,5 +1,5 @@
 angular.module('dandelionAdminApp')
-        .factory('UserService', function($http) {
+        .factory('userService', function($http) {
     return {
         findAll: function() {
             return $http.post(options.api.base_url + 'users');
@@ -13,7 +13,7 @@ angular.module('dandelionAdminApp')
         }
     }
 })
-        .factory('StatusService', function($http) {
+        .factory('postService', function($http) {
     return {
         findAll: function(id) {
             var data = {id: id};
@@ -21,11 +21,21 @@ angular.module('dandelionAdminApp')
         },
     }
 })
-        .factory('CommentService', function($http) {
+        .factory('commentService', function($http) {
     return {
         findAll: function(id) {
             var data = {id: id};
             return $http.post(options.api.base_url + 'comments', data);
+        },
+    }
+})
+
+        .factory('photoService', function($http) {
+    return {
+        findAll: function(id) {
+            console.log(id);
+            var data = {id: id};
+            return $http.post(options.api.base_url + 'photos', data);
         },
     }
 })

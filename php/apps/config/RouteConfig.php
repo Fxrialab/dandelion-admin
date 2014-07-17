@@ -24,9 +24,18 @@ class RouteConfig
         'status_POST' => "UserController",
         'admin_POST' => "AdminController",
         'posts_POST' => "PostController",
+        'photos_POST' => "PhotoController",
         'comments_POST' => "CommentController",
         'forgotPassword_POST' => "AdminController",
+        'advancedSearch_POST' => "SearchController",
         'search_POST' => "SearchController",
+        'main_POST' => "HomeController",
+        'upload_POST' => "ThemeController",
+        'deleteFile_GET' => "ThemeController",
+        'theme_POST' => "ThemeController",
+        'install_POST' => "ThemeController",
+        'detailTheme_POST' => "ThemeController",
+        'description_POST' => "ThemeController"
     );
 
 }
