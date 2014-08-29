@@ -24,22 +24,61 @@ class ThemeController extends AppController
     {
         $data = json_decode(file_get_contents("php://input"));
         $model = $this->facade->findByPk('themes', $data->id);
-        $url = BASE_URL . 'files/' . $model->data->file;
-        $forder = BASE_URL . 'files/';
-        list($name, $ext) = explode(".", $model->data->file);
-        $ext == 'zip' ? true : false;
-        if (!$ext)
-        {
-            $myMsg = "Please upload a valid .zip file.";
-        }
+        $myFile = 'F:\website\dandelion-admin\php\files/' . $model->data->file;
+        $myDir = 'F:\website\dandelion-admin\php\files/';
+        $destination = $model->data->file;
         $zip = new ZipArchive();
-        $x = $zip->open(BASE_URL . 'files/' . $model->data->file, ZIPARCHIVE::CREATE);
+        $x = $zip->open($myFile); // open the zip file to extract
+        var_dump($x);
         if ($x === true)
         {
-            $a = $zip->extractTo('../themes/');
-            var_dump($a);
+            $zip->extractTo($myDir); // place in the directory with same name
             $zip->close();
+            unlink($myFile);
         }
+
+//        $forder = BASE_URL . 'files/';
+//        list($name, $ext) = explode(".", $model->data->file);
+//        $ext == 'zip' ? true : false;
+//        if (!$ext)
+//        {
+//            $myMsg = "Please upload a valid .zip file.";
+//        }
+//        $zip = new ZipArchive();
+//        $x = $zip->open(BASE_URL . 'files/' . $model->data->file, ZIPARCHIVE::CREATE);
+//        if ($x === true)
+//        {
+//            $a = $zip->extractTo('../files/');
+//            var_dump($a);
+//            $zip->close();
+//        }
+//            if (file_exists($source) === true)
+//            {
+//                $zip = new ZipArchive();
+//                if ($zip->open($destination, ZIPARCHIVE::CREATE) === true)
+//                {
+//                    if (is_dir($source) === true)
+//                    {
+//                        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+//                       
+//                        foreach ($files as $file)
+//                        {
+//                            if (is_file($file) === true)
+//                            {
+//                                $zip->addFromString(basename($file), file_get_contents($file));
+//                            }
+//                        }
+//                    }
+//                    else if (is_file($source) === true)
+//                    {
+//                        $zip->addFromString(basename($source), file_get_contents($source));
+//                    }
+//                }
+//
+//                return $zip->close();
+//            }
+//
+//        return false;
     }
 
     public function detailTheme()

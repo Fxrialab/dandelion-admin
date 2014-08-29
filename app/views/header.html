@@ -206,14 +206,14 @@
             <li class="dropdown user user-menu">
                 <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="glyphicon glyphicon-user"></i>
-                    <span class="fullName">{{fullName}}<i class="caret"></i></span>
+                    <span class="fullName" ng-show='logined'>{{fullName}}<i class="caret"></i></span>
                 </a>
                 <ul class="dropdown-menu">
                     <!-- User image -->
                     <li class="user-header bg-light-blue">
                         <img src="images/avatar.png" class="img-circle" alt="User Image" />
                         <p>
-                            <span class="fullName">Vinh Huynh</span>
+                            <span class="fullName">{{fullName}}</span>
                             <small>Member since Nov. 2012</small>
                         </p>
                     </li>

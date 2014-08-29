@@ -390,3 +390,52 @@
 
     </body>
 </html>
+
+
+       <script type="text/javascript" src="./js/libs/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="./js/libs/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/libs/bootstrap-select.min.js"></script><!-- select search result -->
+        <script type="text/javascript" src="./js/libs/select2.min.js"></script><!--- select register -->
+        <script type="text/javascript" src="./js/libs/jquery.mousewheel.js"></script><!--- flexlider -->
+        <script type="text/javascript" src="./js/libs/jquery.easing.js"></script>
+        <script type="text/javascript" src="./js/libs/jquery.flexslider-min.js"></script><!--- flexlider .end -->
+        <script type="text/javascript" src="./js/custom/common.js"></script>
+
+        <!--bower components angular -->
+        <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+        <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+        <script type="text/javascript" src="bower_components/ng-table/ng-table.js"></script>
+
+        <!--App js-->
+        <script type="text/javascript" src="scripts/app.js"></script>
+        
+        <!--Controller JS-->
+        <script type="text/javascript" src="scripts/controllers/mainCtrl.js"></script>
+        <script type="text/javascript" src="scripts/controllers/userCtrl.js"></script>
+        <script type="text/javascript" src="scripts/controllers/noteCtrl.js"></script>
+        <script type="text/javascript" src="scripts/controllers/searchCtrl.js"></script>
+
+        <!--Services JS-->
+        <script type="text/javascript" src="scripts/services/mainService.js"></script>
+        <script type="text/javascript" src="scripts/services/userService.js"></script>
+        <script type="text/javascript" src="scripts/services/noteService.js"></script>
+        
+                <script>
+            $("body").on('click', '.register', function(e) {
+                e.preventDefault();
+                $.pgwModal({
+                    url: 'register',
+                    maxWidth: 500
+                });
+            });
+            $("body").on('click', '.login', function(e) {
+                e.preventDefault();
+                $.pgwModal({
+                    url: 'login',
+                    maxWidth: 500
+                });
+            });
+        </script>

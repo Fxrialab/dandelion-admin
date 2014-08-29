@@ -6,11 +6,13 @@ angular.module('dandelionAdminApp')
      * Comment
      */
     function getData() {
+        $scope.check = false;
         mainService.main()
                 .success(function(data) {
             $scope.countManager = data.countManager;
             $scope.countUser = data.countUser;
             $scope.countTheme = data.countTheme;
+            $scope.isLogin = false;
         })
                 .error(function(error) {
             $scope.status = 'Unable to load customer data: ' + error.message;

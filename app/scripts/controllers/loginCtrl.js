@@ -75,7 +75,7 @@ app.controller('LoginCtrl', function($scope, $http, ngDialog, $window, $rootScop
                         $rootScope.fullName = data.fullName;
                         ngDialog.close();
                         $location.path("/");
-                        
+
                     }
 
                 })
