@@ -1,0 +1,112 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> Profile
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Profile</h3>
+                </div>
+                <div class="panel-body">
+                    {{success}}
+                    <form name="profileForm" class="form-horizontal" role="form">
+
+                        <div class="form-group" ng-class="{ 'has-error' : profileForm.name.$invalid && !profileForm.name.$pristine }">
+                            <label class="col-sm-3 control-label no-padding-right" for="username"> Username </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" name="username" ng-model="profile.username" class="form-control" ng-model="user.name" required>
+                                    <p ng-show="profileForm.username.$invalid && !profileForm.username.$pristine" class="help-block">You username is required.</p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="email"> Email </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="{{profile.email}}" name="email" ng-model="profile.email" disabled/>
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid && !profileForm.firstName.$pristine }">
+                            <label class="col-sm-3 control-label no-padding-right" for="firstName"> First Name </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="{{profile.firstName}}" name="firstName" ng-model="profile.firstName" required focus/>
+                                    <p ng-show="profileForm.firstName.$invalid && !profileForm.firstName.$pristine" class="help-block">You First Name is required.</p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : profileForm.lastName.$invalid && !profileForm.firstName.$pristine }">
+                            <label class="col-sm-3 control-label no-padding-right" for="firstName"> Last Name </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="{{profile.lastName}}" name="firstName" ng-model="profile.lastName" required focus/>
+                                    <p ng-show="profileForm.lastName.$invalid && !profileForm.lastName.$pristine" class="help-block">You Last Name is required.</p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="role"> Role </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="{{profile.role}}"  disabled/>
+
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="password"> Password </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="Password"  />
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="comfirmPassword"> Comfirm Password </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="Comfirm Password"/>
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="space"></div>
+                        <div class="clearfix">
+                            <div class="row">
+                                <label class="col-sm-3 control-label no-padding-right"> </label>
+                                <div class="col-sm-7">
+                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doProfile(profile)" data-ng-disabled="loginForm.$invalid">
+                                        <i class="ace-icon fa fa-key"></i>
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->
