@@ -19,6 +19,9 @@ body {
     body {
         margin-top: 50px;
     }
+    .modal-dialog-max{
+        width: 1000px !important;
+    }
 }
 
 #wrapper {
@@ -132,12 +135,12 @@ ul.alert-dropdown {
         border-radius: 0;
         overflow-y: auto;
         background-color: #3c8dbc;
-  
+
     }
 
     .side-nav>li>a {
         width: 225px;
-                color: #fff !important;
+        color: #fff !important;
     }
 
     .side-nav li a:hover,
@@ -149,7 +152,7 @@ ul.alert-dropdown {
 
 .side-nav>li>ul {
     padding: 0;
-       color: #fff !important;
+    color: #fff !important;
 }
 
 .side-nav>li>ul>li>a {
@@ -237,3 +240,22 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+
+.modal { 
+    display: block;
+}
+
+/* Custom dialog/modal headers */
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #333333; }
+.dialog-header-error span, .dialog-header-error h4,
+.dialog-header-wait span, .dialog-header-wait h4,
+.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+/* Ease Display */
+
+.pad { padding: 25px; }

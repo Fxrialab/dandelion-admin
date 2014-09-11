@@ -23,8 +23,10 @@ class RouteConfig
         'users_GET' => "UserController",
         'user_GET' => "UserController",
         'status_POST' => "UserController",
+        'useractive_GET' => "UserController",
         'admin_POST' => "AdminController",
         'posts_GET' => "PostController",
+        'postactive_GET' => "PostController",
         'photos_POST' => "PhotoController",
         'comments_GET' => "CommentController",
         'forgotPassword_POST' => "AdminController",
@@ -35,8 +37,10 @@ class RouteConfig
         'deleteFile_GET' => "ThemeController",
         'themes_GET' => "ThemeController",
         'install_GET' => "ThemeController",
-        'detailTheme_POST' => "ThemeController",
-        'description_POST' => "ThemeController"
+        'detailTheme_GET' => "ThemeController",
+        'saveTheme_POST' => "ThemeController",
+        'remove_GET' => "ThemeController",
+        'buynow_GET' => "ThemeController"
     );
 
 }

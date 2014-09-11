@@ -1442,16 +1442,18 @@ class UploadHandler extends Controller
         $facade = new DataFacade();
         foreach ($files as $value)
         {
+            list($name, $ext) = explode(".", $value->name);
             $array = array(
-                'file' => $value->name,
+                'name' => $name,
+                'file_name' => $value->name,
                 'size' => $value->size,
-                'numberDown' => 0,
-                'userID' => '',
+                'status' => 0,
                 'description' => '',
+                'url' => $value->url,
                 'published' => time(),
             );
             $themes = $facade->save('themes', $array);
-            $file[] = array('id' => $themes, 'name' => $value->name, 'size' => $value->size, 'type' => $value->type, 'url' => $value->url, 'description' => '');
+            $file[] = array('id' => $themes, 'name' => $name, 'file_name' => $value->name, 'size' => $value->size, 'type' => $value->type, 'url' => $value->url, 'description' => '');
         }
         return $this->generate_response(
                         array($this->options['param_name'] => $file), $print_response

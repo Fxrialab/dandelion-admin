@@ -1,55 +1,53 @@
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-4 col-sm-offset-1">
+        <div id="login-box" class="login-box visible widget-box no-border" style="background-color: #fff;">
+            <h2 style="padding: 10px 15px">Login</h2>
+            <div class="widget-body" style="padding: 30px 0">
+                <div class="widget-main">
 
+                    <div class="space-16"></div>
 
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-4 col-sm-offset-1">
-            <div id="login-box" class="login-box visible widget-box no-border" style="background-color: #fff;">
-                <h2 style="padding: 10px 15px">Login</h2>
-                <div class="widget-body" style="padding: 30px 0">
-                    <div class="widget-main">
+                    <form name="loginForm" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="username"> Username </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="text" class="form-control" placeholder="Username" name="username" ng-model="login.username" required focus/>
 
-                        <div class="space-16"></div>
-
-                        <form name="loginForm" class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="username"> Username </label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="password"> Password </label>
+                            <div class="col-sm-7">
+                                <span class="block input-icon input-icon-right">
+                                    <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="space"></div>
+                        <div class="clearfix">
+                            <div class="row">
+                                <label class="col-sm-3 control-label no-padding-right"> </label>
                                 <div class="col-sm-7">
-                                    <span class="block input-icon input-icon-right">
-                                        <input type="text" class="form-control" placeholder="Username" name="username" ng-model="login.username" required focus/>
-
-                                    </span>
+                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)">
+                                        <i class="ace-icon fa fa-key"></i>
+                                        Login
+                                    </button>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="password"> Password </label>
-                                <div class="col-sm-7">
-                                    <span class="block input-icon input-icon-right">
-                                        <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required/>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="space"></div>
-                            <div class="clearfix">
-                                <div class="row">
-                                    <label class="col-sm-3 control-label no-padding-right"> </label>
-                                    <div class="col-sm-7">
-                                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
-                                            <i class="ace-icon fa fa-key"></i>
-                                            Login
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                    </form>
 
 
 
-                    </div><!-- /widget-main -->
+                </div><!-- /widget-main -->
 
 
-                </div><!-- /widget-body -->
-            </div><!-- /login-box -->
+            </div><!-- /widget-body -->
+        </div><!-- /login-box -->
 
-        </div><!-- /position-relative -->
-        <div class="col-sm-3"></div>
-    </div>
+    </div><!-- /position-relative -->
+    <div class="col-sm-3"></div>
+</div>

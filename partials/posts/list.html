@@ -34,10 +34,15 @@
                                 <td data-title="'Comment'">
                                     {{post.nComment}}
                                 </td>
-                         <td data-title="'Name'">
-                                    {{post.fullName}}
+                                <td data-title="'Owner Name'">
+                                    {{post.owner}}
                                 </td>
-                       
+                                <td data-title="'Actor Name'">
+                                    {{post.actor}}
+                                </td>
+                                <td data-title="'Active'">
+                                    <a href="javascript:void(0)" class="post_{{post.id}}" ng-click="active(post.recordID)">{{post.active}}</a>
+                                </td>
                             </tr>
                         </table>
                         <script type="text/ng-template" id="pager">

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable', 'ngCookies', 'blueimp.fileupload', 'ui.bootstrap', 'dialogs']);
 
 app.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
@@ -7,70 +7,71 @@ app.config(['$routeProvider', '$locationProvider',
                 when('/login', {
             title: 'Login',
             templateUrl: 'partials/login.html',
-            controller: 'authCtrl'
+            controller: 'loginCtrl'
         })
-                .when('/logout', {
-            title: 'Logout',
-            templateUrl: 'partials/login.html',
-            controller: 'logoutCtrl'
-        })
-                .when('/signup', {
-            title: 'Signup',
-            templateUrl: 'partials/signup.html',
-            controller: 'authCtrl'
-        })
-                .when('/dashboard', {
+                .when('/dashboard/:token', {
             title: 'Dashboard',
             templateUrl: 'partials/dashboard.html'
         })
-                .when('/users', {
-            title: 'List User',
+                .when('/users/:token', {
             controller: 'listUserCtrl',
             templateUrl: 'partials/users/list.html'
         })
-                .when('/user/:id', {
+                .when('/user/:id/:token', {
             controller: 'detailUserCtrl',
             templateUrl: 'partials/users/detail.html'
         })
-                .when('/posts', {
+                .when('/posts/:token', {
             controller: 'listPostCtrl',
             templateUrl: 'partials/posts/list.html'
         })
-                .when('/comments', {
+                .when('/comments/:token', {
             controller: 'listCommentCtrl',
             templateUrl: 'partials/posts/comment.html'
         })
-                  .when('/themes', {
+                .when('/themes/:token', {
             controller: 'listThemeCtrl',
             templateUrl: 'partials/themes/list.html'
         })
-                  .when('/profile', {
+                .when('/themes/:id/:token', {
+            controller: 'detailThemeCtrl',
+            templateUrl: 'partials/themes/detail.html'
+        })
+                .when('/upload/:token', {
+            templateUrl: 'partials/themes/upload.html'
+        })
+                .when('/download/:token', {
+            controller: 'downloadThemeCtrl',
+            templateUrl: 'partials/themes/download.html'
+        })
+                .when('/profile/:token', {
             controller: 'profileCtrl',
             templateUrl: 'partials/users/profile.html'
         })
-                     .when('/error', {
+                .when('/error', {
             templateUrl: 'partials/error.html'
         })
                 .when('/', {
-              templateUrl: 'partials/dashboard.html'
+            templateUrl: 'partials/dashboard.html'
         })
                 .otherwise({
             redirectTo: '/error'
         });
     }])
-        .run(function($rootScope, $location, $window, Data, $routeParams) {
+        .run(function($rootScope, $location, $window, Data, $routeParams, $cookieStore) {
+
     $rootScope.$on("$routeChangeStart", function(event, next, current) {
         $rootScope.authenticated = false;
-        $rootScope.nav = false;
         $rootScope.wrapper = '';
-        if ($window.sessionStorage.token) {
-            Data.get('session?token=' + $window.sessionStorage.token).then(function(results) {
+        var token = $cookieStore.get('token');
+        if (token) {
+            Data.get('session?token=' + token).then(function(results) {
                 if (results.userID) {
                     $rootScope.authenticated = true;
                     $rootScope.userID = results.userID;
                     $rootScope.name = results.fullName;
                     $rootScope.email = results.email;
-                    $rootScope.nav = true;
+                    $rootScope.token = results.token;
                     $rootScope.wrapper = 'wrapper';
                 } else {
                     var nextUrl = next.$$route.originalPath;
@@ -80,6 +81,25 @@ app.config(['$routeProvider', '$locationProvider',
                     }
                 }
             });
+        } else {
+            $location.path("/login");
         }
+
+
+
+
+
     });
 });
+
+var comfirmCtrl = function($scope, $modalInstance, deleteItem) {
+    $scope.item = deleteItem;
+    $scope.ok = function() {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+};

@@ -16,8 +16,11 @@ class ThemeController extends AppController
 
     public function deleteFile()
     {
-        $link = BASE_URL . 'files/' . $_GET['file'];
-        var_dump($link);
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $link = DOCUMENT_ROOT . 'files/' . $_GET['file_name'];
+            unlink($link);
+        }
     }
 
     public function install()
@@ -52,20 +55,19 @@ class ThemeController extends AppController
 
     public function detailTheme()
     {
-        $data = json_decode(file_get_contents("php://input"));
-        $model = $this->facade->findByPk('themes', $data->id);
-        list($name, $ext) = explode(".", $model->data->file);
-        $arr = array(
-            'id' => $model->recordID,
-            'name' => $name,
-            'file' => $model->data->file,
-            'size' => $model->data->size,
-            'description' => $model->data->description,
-            'numberDown' => $model->data->numberDown,
-            'userID' => $model->data->userID,
-            'published' => date('Y/m/d', $model->data->published)
-        );
-        echo json_encode($arr);
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $model = $this->facade->findByPk('themes', $_GET['id']);
+            $arr = array(
+                'id' => $model->recordID,
+                'name' => $model->data->name,
+                'file' => $model->data->file_name,
+                'size' => $model->data->size,
+                'description' => $model->data->description,
+                'published' => date('Y/m/d', $model->data->published)
+            );
+            echo json_encode($arr);
+        }
     }
 
     public function themes()
@@ -81,13 +83,13 @@ class ThemeController extends AppController
                     $status = "Install";
                 else
                     $status = "Active";
-                list($name, $ext) = explode(".", $value->data->file);
+//                list($name, $ext) = explode(".", $value->data->file);
                 $arr[] = array(
-                    'id' => $value->recordID,
-                    'name' => $name,
-                    'file' => $value->data->file,
+                    'recordID' => $value->recordID,
+                    'id' => str_replace(':', '_', $value->recordID),
+                    'name' => $value->data->name,
+                    'file' => $value->data->file_name,
                     'size' => $value->data->size,
-                    'numberDown' => $value->data->numberDown,
                     'userID' => '',
                     'status' => $status,
                     'published' => date('Y/m/d', $value->data->published)
@@ -108,6 +110,27 @@ class ThemeController extends AppController
             );
         }
         $update = $this->facade->updateByAttributes('themes', $array, array('@rid' => '#' . $model->recordID));
+    }
+
+    public function remove()
+    {
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $model = $this->facade->deleteByPk('themes', $_GET['id']);
+            echo json_encode(array('success' => $model, 'id' => str_replace(':', '_', $_GET['id'])));
+        }
+    }
+
+    public function buynow()
+    {
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $model = $this->facade->findByPk('themes', $_GET['id']);
+            $dir = DOCUMENT_ROOT . 'files/';
+            $download = DOCUMENT_ROOT . 'downloads/';
+            mkdir($download . $this->f3->get('SESSION.token'));
+            copy($dir . $model->data->file_name, $download . $this->f3->get('SESSION.token') . '/' . $model->data->file_name);
+        }
     }
 
 }

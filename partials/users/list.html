@@ -23,32 +23,38 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table ng-table="tableParams"  template-pagination="custom/pager" class="table table-bordered table-hover table-striped">
+                        <table ng-table="tableParams" show-filter="true" template-pagination="pager" class="table table-bordered table-hover table-striped">
                             <tr ng-repeat="user in $data">
-                                <td data-title="'Name'">
-                                    {{user.name}}
+                                <td data-title="'Name'" sortable="'name'"  filter="{ 'name': 'text' }">
+                                    <a href="#!/user/{{user.recordID}}/{{token}}">{{user.name}}</a>
                                 </td>
-                                <td data-title="'Email'">
-                                    {{user.email}}
+                                <td data-title="'Email'"  sortable="'email'"  filter="{ 'email': 'text' }">
+                                    <a href="#!/user/{{user.recordID}}/{{token}}">{{user.email}}</a>
                                 </td>
-                                <td data-title="'Status'">
-                                    {{user.status}}
+                                <td data-title="'Status'" filter="{ 'status': 'status'}">
+                                    <a href="javascript:void(0)" class="user_{{user.id}}" ng-click="active(user.recordID)">{{user.status}}</a>
                                 </td>
-                                <td data-title="'Count Status'">
+                                <td data-title="'Count Status'"  sortable="'countStatus'">
                                     {{user.countStatus}}
                                 </td>
-                                <td data-title="'Count Photo'">
+                                <td data-title="'Count Photo'" sortable="'countPhoto'">
                                     {{user.countPhoto}}
                                 </td>
-                                <td data-title="'Count Comment'">
+                                <td data-title="'Count Comment'" sortable="'countComment'">
                                     {{user.countComment}}
                                 </td>
                                 <td data-title="'Action'">
-                                    <a href="#!/user/{{user.id}}">View</a>
+                                    <a href="#!/user/{{user.recordID}}/{{token}}">View</a>
                                 </td>
                             </tr>
                         </table>
-                        <script type="text/ng-template" id="custom/pager">
+                        <script type="text/ng-template" id="ng-table/filters/status.html">
+                            <select ng-model="params.filter()[name]" name="filter-status" class="form-control">
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            </select>
+                        </script>
+                        <script type="text/ng-template" id="pager">
                             <ul class="pager ng-cloak">
                             <li ng-repeat="page in pages"
                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"

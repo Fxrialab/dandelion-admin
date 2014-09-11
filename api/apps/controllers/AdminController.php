@@ -10,67 +10,89 @@ class AdminController extends AppController
         parent::__construct();
     }
 
+    public static function token()
+    {
+//Under the string $Caracteres you write all the characters you want to be used to randomly generate the code. 
+        $Caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $QuantidadeCaracteres = strlen($Caracteres);
+        $QuantidadeCaracteres--;
+
+        $token = NULL;
+        for ($x = 1; $x <= 30; $x++)
+        {
+            $Posicao = rand(0, $QuantidadeCaracteres);
+            $token .= substr($Caracteres, $Posicao, 1);
+        }
+
+        return $token;
+    }
+
     public function register()
     {
-        $data = json_decode(file_get_contents("php://input"));
-        $array = array(
-            'username' => $data->username,
-            'password' => $this->EncryptionHelper->HashPassword($data->password),
-            'email' => $data->email,
-            'fullName' => $data->fullName,
-            'status' => 0,
-            'role' => 'admin',
-            'published' => time(),
-        );
-        $admin = $this->facade->save('admin', $array);
-        if (!empty($admin))
+        if ($this->isLogin())
         {
-            $model = $this->facade->findByPk('admin', $admin);
-            echo json_encode(array(
-                'id' => $model->recordID,
-                'fullName' => $model->data->fullName,
-                'username' => $model->data->username,
-                'status' => $model->data->status,
-                'role' => $model->data->role,
-                'published' => date('Y/m/d', $model->data->published)
-            ));
+            $data = json_decode(file_get_contents("php://input"));
+            $array = array(
+                'username' => $data->username,
+                'password' => $this->EncryptionHelper->HashPassword($data->password),
+                'email' => $data->email,
+                'fullName' => $data->fullName,
+                'status' => 0,
+                'role' => 'admin',
+                'published' => time(),
+            );
+            $admin = $this->facade->save('admin', $array);
+            if (!empty($admin))
+            {
+                $model = $this->facade->findByPk('admin', $admin);
+                echo json_encode(array(
+                    'id' => $model->recordID,
+                    'fullName' => $model->data->fullName,
+                    'username' => $model->data->username,
+                    'status' => $model->data->status,
+                    'role' => $model->data->role,
+                    'published' => date('Y/m/d', $model->data->published)
+                ));
+            }
         }
     }
 
     public function admin()
     {
-        $obj = new ObjectHandler();
-        $model = $this->facade->findAll('admin', $obj);
-        $arr = array();
-        if (!empty($model))
+        if ($this->isLogin())
         {
-            foreach ($model as $key => $value)
+            $obj = new ObjectHandler();
+            $model = $this->facade->findAll('admin', $obj);
+            $arr = array();
+            if (!empty($model))
             {
-                $arr[] = array(
-                    'id' => $value->recordID,
-                    'username' => $value->data->username,
-                    'email' => $value->data->email,
-                    'name' => $value->data->fullName,
-                    'status' => $value->data->status,
-                    'role' => $value->data->role,
-                    'published' => date('Y/m/d', $value->data->published)
-                );
+                foreach ($model as $key => $value)
+                {
+                    $arr[] = array(
+                        'id' => $value->recordID,
+                        'username' => $value->data->username,
+                        'email' => $value->data->email,
+                        'name' => $value->data->fullName,
+                        'status' => $value->data->status,
+                        'role' => $value->data->role,
+                        'published' => date('Y/m/d', $value->data->published)
+                    );
+                }
             }
         }
-
 
         echo json_encode($arr);
     }
 
     public function session()
     {
-
         echo json_encode(array(
             'userID' => $this->f3->get('SESSION.userID'),
             'fullName' => $this->f3->get('SESSION.fullName'),
             'email' => $this->f3->get('SESSION.email'),
             'username' => $this->f3->get('SESSION.username'),
-            'token' => $this->f3->get('SESSION.token')
+            'token' => $this->f3->get('SESSION.token'),
+            'role' => $this->f3->get('SESSION.role')
         ));
     }
 
@@ -91,14 +113,13 @@ class AdminController extends AppController
                     $this->f3->set('SESSION.email', $admin->data->email);
                     $this->f3->set('SESSION.role', $admin->data->role);
                     $this->f3->set('SESSION.fullName', $admin->data->fullName);
-                    $this->f3->set('SESSION.token', '123456789');
-
+                    $this->f3->set('SESSION.token', $this->token());
                     echo json_encode(array(
                         'userID' => $admin->recordID,
                         'fullName' => $admin->data->fullName,
                         'email' => $admin->data->email,
                         'username' => $admin->data->username,
-                        'token' => '123456789',
+                        'token' => $this->f3->get('SESSION.token'),
                         'status' => 'success'
                     ));
                 }
@@ -126,19 +147,21 @@ class AdminController extends AppController
         {
             if (!empty($data->comfirmPassword))
             {
-                if ( $this->EncryptionHelper->CheckPassword($data->comfirmPassword, $model->data->password))
+                if ($this->EncryptionHelper->CheckPassword($data->comfirmPassword, $model->data->password))
                 {
-     
-                $array = array(
-                    'username' => $data->username,
-                    'password' => $this->EncryptionHelper->HashPassword($data->newPassword),
-                    'email' => $data->email,
-                    'firstName' => $data->firstName,
-                    'lastName' => $data->lastName,
-                    'fullName' => $data->firstName . ' ' . $data->lastName
-                );
-                } else {
-                    echo json_encode(array('success'=>'Error password or comfirm password'));
+
+                    $array = array(
+                        'username' => $data->username,
+                        'password' => $this->EncryptionHelper->HashPassword($data->newPassword),
+                        'email' => $data->email,
+                        'firstName' => $data->firstName,
+                        'lastName' => $data->lastName,
+                        'fullName' => $data->firstName . ' ' . $data->lastName
+                    );
+                }
+                else
+                {
+                    echo json_encode(array('success' => 'Error password or comfirm password'));
                 }
             }
             else
@@ -155,7 +178,7 @@ class AdminController extends AppController
         $admin = $this->facade->updateByAttributes('admin', $array, array('@rid' => '#' . $this->f3->get('SESSION.userID')));
         if (!empty($admin))
         {
-            echo json_encode(array('success'=>'You have changed successfully'));
+            echo json_encode(array('success' => 'You have changed successfully'));
         }
     }
 

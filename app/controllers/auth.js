@@ -1,19 +1,23 @@
-app.controller('authCtrl', function($scope, $rootScope, $routeParams, $window, $location, $http, Data) {
-    //initially set those objects to null to avoid undefined error
+app.controller('loginCtrl', function($scope, $rootScope, $location, $http, $cookieStore, Data) {
+    if ($cookieStore.get('token')) {
+        $location.path('/');
+    }
     $scope.login = {};
-    $scope.signup = {};
     $scope.doLogin = function(data) {
         Data.post('login', {
             data: data
         }).then(function(results) {
             Data.toast(results);
-            $window.sessionStorage.token = results.token;
+            $cookieStore.put('token', results.token);
             $rootScope.wrapper = 'wrapper';
             if (results.status == "success") {
                 $location.path('/');
             }
         });
     };
+});
+app.controller('authCtrl', function($scope, $rootScope, $routeParams, $window, $location, $http, $cookieStore, Data) {
+    $scope.signup = {};
     $scope.signup = {email: '', password: '', name: '', phone: '', address: ''};
     $scope.signUp = function(customer) {
         Data.post('signUp', {
@@ -28,7 +32,7 @@ app.controller('authCtrl', function($scope, $rootScope, $routeParams, $window, $
     $scope.logout = function() {
         Data.get('logout').then(function(results) {
             Data.toast(results);
-            $rootScope.nav = false;
+            $cookieStore.remove('token');
             $rootScope.wrapper = '';
             $location.path('login');
         });
@@ -36,7 +40,7 @@ app.controller('authCtrl', function($scope, $rootScope, $routeParams, $window, $
 });
 
 app.controller('profileCtrl', function($scope, $rootScope, $routeParams, $window, $location, $http, Data) {
-    Data.get('profile').then(function(results) {
+    Data.get('profile?token=' + $routeParams.token).then(function(results) {
         $scope.profile = results;
     });
     $scope.doProfile = function(data) {

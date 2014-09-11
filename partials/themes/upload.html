@@ -1,0 +1,89 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-user"></i> <a href="#!/themes"> Themes</a>
+                </li>
+                <li class="active">
+                    <i class="fa fa-user"></i> Upload
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Upload</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+
+                        <form id="fileupload" action="" method="POST" enctype="multipart/form-data" data-ng-controller="UploadCtrl" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}" ng-submit="file()">
+                            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+
+                            <div class="row-fluid fileupload-buttonbar">
+                                <div style="margin-bottom: 20px">
+                                    <!-- The fileinput-button span is used to style the file input field as button -->
+                                    <span class="btn btn-success fileinput-button" >
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span>Add files...</span>
+                                        <input type="file" name="files"  >
+                                    </span>
+                                    <!-- The global file processing state -->
+                                    <span class="fileupload-process"></span>
+                                </div>
+                                <!-- The global progress state -->
+
+                            </div>
+                            <!-- The table listing the files available for upload/download -->
+                            <div class="row-fluid">
+                                <table class="table table-striped files ng-cloak">
+
+                                    <tr data-ng-repeat="file in queue" data-ng-class="{'processing': file.$processing()}">
+                                        <td>
+                                            <p class="name" data-on="!!file.url">
+                                                <span >{{file.file_name}}</span>
+                                            </p>
+                                            <div class="preview" data-file-upload-preview="file"></div>
+                                            <div class="progress progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()">
+                                                <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
+                                            </div>
+                                            <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                                        </td>
+                                        <td>
+                                            <p class="size">
+                                                {{file.size | formatFileSize}}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="#!/themes/{{file.id}}/{{token}}" type="button" class="btn btn-primary destroy">
+                                                <i class="glyphicon glyphicon-save"></i>
+                                                <span>View</span>
+                                            </a>
+                                            <button data-ng-controller="FileDestroyCtrl" type="button" class="btn btn-danger destroy" data-ng-click="file.$destroy(file.name)">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->

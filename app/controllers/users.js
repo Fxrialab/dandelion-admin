@@ -3,24 +3,49 @@ app.controller('userCtrl', function($scope, $rootScope, $routeParams, $window, $
     $rootScope.$rootScope = 'user';
 });
 
-app.controller('listUserCtrl', function($scope, ngTableParams, Data) {
-    Data.get('users').then(function(results) {
+app.controller('listUserCtrl', function($scope, $rootScope, $location, $q, $routeParams, $filter, ngTableParams, $window, $cookieStore, Data) {
+
+    Data.get('users?token=' + $routeParams.token).then(function(results) {
         var data = results;
         $scope.tableParams = new ngTableParams({
             page: 1, // show first page
-            count: 20          // count per page
+            count: 10, // count per page
+            sorting: {
+                name: 'asc', // initial sorting
+                email: 'asc', // initial sorting
+            },
+            filter: {
+                name: '', // initial filter
+                email: ''       // initial filter
+            }
         }, {
             total: data.length, // length of data
             getData: function($defer, params) {
-                $defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                // use build-in angular filter
+                var orderedData = params.sorting ?
+                        $filter('orderBy')(data, params.orderBy()) :
+                        data;
+                orderedData = params.filter ?
+                        $filter('filter')(orderedData, params.filter()) :
+                        orderedData;
+
+                $scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+
+                params.total(orderedData.length); // set total for recalc pagination
+                $defer.resolve($scope.users);
             }
         });
     });
+    $scope.active = function(id) {
+        Data.get('useractive?id=' + id + '&token=' + $cookieStore.get('token')).then(function(results) {
+            $('.user_' + results.id).html(results.status);
+        });
+    }
 
 });
 
 app.controller('detailUserCtrl', function($scope, $routeParams, ngTableParams, Data) {
-    Data.get('user?id=' + $routeParams.id).then(function(results) {
+    Data.get('user?id=' + $routeParams.id + '&token=' + $routeParams.token).then(function(results) {
         $scope.user = results.user;
         var data = results.status;
         $scope.tableParams = new ngTableParams({
@@ -32,7 +57,7 @@ app.controller('detailUserCtrl', function($scope, $routeParams, ngTableParams, D
                 $defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
         });
-         var com = results.comment;
+        var com = results.comment;
         $scope.tableComment = new ngTableParams({
             page: 1, // show first page
             count: 10          // count per page

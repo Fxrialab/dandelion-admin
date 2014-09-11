@@ -12,7 +12,7 @@ $dir = dirname(__FILE__);
 $dirSource = substr($dir, 0, strpos($dir, 'apps') - 1);
 
 define('DS', '/');
-define('BASE_URL', 'http://dandelion-admin.local/php/');
+define('BASE_URL', 'http://dandelion-admin.local/api/');
 define('DOCUMENT_ROOT', $dirSource . DS);
 define('F3', DOCUMENT_ROOT . 'lib' . DS);
 define('CONFIG', DOCUMENT_ROOT . 'apps' . DS . 'config' . DS);
