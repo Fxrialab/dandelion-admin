@@ -13,12 +13,12 @@ class AdminController extends AppController
     public static function token()
     {
 //Under the string $Caracteres you write all the characters you want to be used to randomly generate the code. 
-        $Caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $Caracteres = '0123456789';
         $QuantidadeCaracteres = strlen($Caracteres);
         $QuantidadeCaracteres--;
 
         $token = NULL;
-        for ($x = 1; $x <= 30; $x++)
+        for ($x = 1; $x <= 20; $x++)
         {
             $Posicao = rand(0, $QuantidadeCaracteres);
             $token .= substr($Caracteres, $Posicao, 1);

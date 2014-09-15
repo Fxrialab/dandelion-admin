@@ -16,22 +16,25 @@ class HomeController extends AppController
         parent::__construct();
     }
 
-    public function main()
+       public function main()
     {
-        $countManager = $this->facade->countAll('admin');
-        $countUser = $this->facade->countAll('user');
-        $countPost = $this->facade->countAll('status');
-        $countComment = $this->facade->countAll('comment');
-        $countPhoto = $this->facade->countAll('photo');
-        $countTheme = $this->facade->countAll('themes');
-        echo json_encode(array(
-            'countManager' => $countManager,
-            'countUser' => $countUser,
-            'countPost' => $countPost,
-            'countComment' => $countComment,
-            'countPhoto' => $countPhoto,
-            'countTheme' => $countTheme
-        ));
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $countUser = $this->facade->countAll('user');
+            $countPost = $this->facade->countAll('status');
+            $countComment = $this->facade->countAll('comment');
+            $countPhoto = $this->facade->countAll('photo');
+            $countTheme = $this->facade->countAll('themes');
+            $countGroup = $this->facade->countAll('group');
+            echo json_encode(array(
+                'countUser' => $countUser,
+                'countPost' => $countPost,
+                'countComment' => $countComment,
+                'countPhoto' => $countPhoto,
+                'countTheme' => $countTheme,
+                'countGroup' => $countGroup
+            ));
+        }
     }
 
 }

@@ -12,6 +12,9 @@ app.controller('loginCtrl', function($scope, $rootScope, $location, $http, $cook
             $rootScope.wrapper = 'wrapper';
             if (results.status == "success") {
                 $location.path('/');
+            } else
+            {
+                $rootScope.wrapper = '';
             }
         });
     };

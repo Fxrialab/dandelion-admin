@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable', 'ngCookies', 'blueimp.fileupload', 'ui.bootstrap', 'dialogs']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable', 'ngCookies', 'blueimp.fileupload', 'ui.bootstrap', 'dialogs', 'ngTableExport']);
 
 app.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
@@ -10,7 +10,6 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'loginCtrl'
         })
                 .when('/dashboard/:token', {
-            title: 'Dashboard',
             templateUrl: 'partials/dashboard.html'
         })
                 .when('/users/:token', {
@@ -25,7 +24,11 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'listPostCtrl',
             templateUrl: 'partials/posts/list.html'
         })
-                .when('/comments/:token', {
+//                .when('/comments/:token', {
+//            controller: 'listCommentCtrl',
+//            templateUrl: 'partials/posts/comment.html'
+//        })
+                .when('/comments/:sort/:token', {
             controller: 'listCommentCtrl',
             templateUrl: 'partials/posts/comment.html'
         })
@@ -47,6 +50,10 @@ app.config(['$routeProvider', '$locationProvider',
                 .when('/profile/:token', {
             controller: 'profileCtrl',
             templateUrl: 'partials/users/profile.html'
+        })
+                .when('/groups/:token', {
+            controller: 'listGroupCtrl',
+            templateUrl: 'partials/groups/list.html'
         })
                 .when('/error', {
             templateUrl: 'partials/error.html'

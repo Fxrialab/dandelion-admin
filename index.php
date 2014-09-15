@@ -38,58 +38,7 @@
         <div id="{{wrapper}}">
             <!-- Navigation -->
 
-            <nav ng-if='authenticated'  class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">Adminstrator</a>
-                </div>
-                <!-- Top Menu Items -->
-                <ul class="nav navbar-right top-nav">
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{name}} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#!/profile/{{token}}"><i class="fa fa-fw fa-user"></i> Profile</a>
-                            </li>
-                            <li>
-                                <a href="#!/setting/{{token}}"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li ng-controller="authCtrl">
-                                <a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav side-nav">
-                        <li>
-                            <a href="#!/dashboard/{{token}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#!/users/{{token}}"><i class="fa fa-fw fa-bar-chart-o"></i> Users</a>
-                        </li>
-                        <li>
-                            <a href="#!/themes/{{token}}"><i class="fa fa-fw fa-table"></i> Themes</a>
-                        </li>
-                        <li>
-                            <a href="#!/posts/{{token}}"><i class="fa fa-fw fa-table"></i> Posts</a>
-                        </li>
-                        <li>
-                            <a href="#!/comments/{{token}}"><i class="fa fa-fw fa-table"></i> Comment</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </nav>
+            <div ng-if='authenticated' ng-include src="'partials/nav.html'"></div>
             <div id="page-wrapper" data-ng-view="">
 
             </div>
@@ -108,10 +57,12 @@
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
     <script src="bower_components/ng-table/ng-table.js"></script>
-    <script src="js/angular-animate.min.js" ></script>
-    <script src="js/toaster.js"></script>
-    <script src="js/ui-bootstrap.js"></script>
-    <script src="js/angular-dialog.js"></script>
+    <script src="bower_components/ng-table/ng-table-export.js"></script>
+    <script src="js/libs/angular-animate.min.js" ></script>
+    <script src="js/libs/toaster.js"></script>
+    <script src="js/libs/ui-bootstrap.js"></script>
+    <script src="js/libs/angular-dialog.js"></script>
+
     <script src="js/upload/jquery.fileupload.js"></script>
     <script src="js/upload/jquery.fileupload-angular.js"></script>
     <script src="js/upload/jquery.ui.widget.js"></script>
@@ -122,16 +73,10 @@
     <script src="app/controllers/users.js"></script>
     <script src="app/controllers/posts.js"></script>
     <script src="app/controllers/themes.js"></script>
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-<!--    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>-->
+    <script src="app/controllers/dashboard.js"></script>
+    <script src="app/controllers/group.js"></script>
+    <script src="js/libs/jquery-1.11.0.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
 
 </body>
 
