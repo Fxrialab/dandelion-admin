@@ -11,6 +11,8 @@ require_once dirname(__DIR__) . "/config/Structure.php";
 require_once FACADE . "DataFacade.php";
 require_once MODEL_UTILS . "ObjectHandler.php";
 require_once FACTORY_UTILS . "FactoryUtils.php";
+require_once FACTORY_UTILS . "UploadTheme.php";
+require_once FACTORY_UTILS . "UploadPlugin.php";
 
 class Controller
 {

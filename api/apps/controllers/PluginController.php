@@ -6,18 +6,17 @@
  * Date: 7/31/13 - 2:18 PM
  * Project: UserWired Network - Version: beta
  */
-class ThemeController extends AppController
+class PluginController extends AppController
 {
 
-    public function uploadTheme()
+    public function uploadPlugin()
     {
-        $upload = new UploadTheme();
+        $upload = new UploadPlugin();
     }
 
-
-    public function install()
+    public function installPlugin()
     {
-        $model = $this->facade->findByPk('themes', $_GET['id']);
+        $model = $this->facade->findByPk('plugin', $_GET['id']);
         if (!empty($model))
         {
             if ($model->data->status == 0)
@@ -28,7 +27,7 @@ class ThemeController extends AppController
                 'status' => $status
             );
         }
-        $update = $this->facade->updateByAttributes('themes', $array, array('@rid' => '#' . $model->recordID));
+        $update = $this->facade->updateByAttributes('plugin', $array, array('@rid' => '#' . $model->recordID));
         $file = $model->data->file;
         $zip = new ZipArchive;
         if ($zip->open('files/' . $file) === TRUE)
@@ -45,11 +44,11 @@ class ThemeController extends AppController
         }
     }
 
-    public function detailTheme()
+    public function detailPlugin()
     {
         if ($_GET['token'] == $this->f3->get('SESSION.token'))
         {
-            $model = $this->facade->findByPk('themes', $_GET['id']);
+            $model = $this->facade->findByPk('plugin', $_GET['id']);
             $arr = array(
                 'id' => $model->recordID,
                 'name' => $model->data->name,
@@ -62,10 +61,10 @@ class ThemeController extends AppController
         }
     }
 
-    public function themes()
+    public function plugin()
     {
         $obj = new ObjectHandler();
-        $model = $this->facade->findAll('themes', $obj);
+        $model = $this->facade->findAll('plugin', $obj);
         $arr = array();
         if (!empty($model))
         {
@@ -91,33 +90,20 @@ class ThemeController extends AppController
         echo json_encode($arr);
     }
 
-    public function description()
-    {
-        $data = json_decode(file_get_contents("php://input"));
-        $model = $this->facade->findByPk('themes', $data->id);
-        if (!empty($model))
-        {
-            $array = array(
-                'description' => $data->description
-            );
-        }
-        $update = $this->facade->updateByAttributes('themes', $array, array('@rid' => '#' . $model->recordID));
-    }
-
-    public function remove()
+    public function removePlugin()
     {
         if ($_GET['token'] == $this->f3->get('SESSION.token'))
         {
-            $model = $this->facade->deleteByPk('themes', $_GET['id']);
+            $model = $this->facade->deleteByPk('plugin', $_GET['id']);
             echo json_encode(array('success' => $model, 'id' => str_replace(':', '_', $_GET['id'])));
         }
     }
 
-    public function buynow()
+    public function buynowPlugin()
     {
         if ($_GET['token'] == $this->f3->get('SESSION.token'))
         {
-            $model = $this->facade->findByPk('themes', $_GET['id']);
+            $model = $this->facade->findByPk('plugin', $_GET['id']);
             $dir = DOCUMENT_ROOT . 'files/';
             $download = DOCUMENT_ROOT . 'downloads/';
             mkdir($download . $this->f3->get('SESSION.token'));

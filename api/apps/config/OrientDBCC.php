@@ -18,5 +18,6 @@ $map = array(
     'group' => '25',
     'groupMember' => '26',
     'admin' => '27',
-    'themes' => '28'
+    'themes' => '28',
+    'plugin' => '29'
 );

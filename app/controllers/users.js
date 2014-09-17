@@ -4,7 +4,6 @@ app.controller('userCtrl', function($scope, $rootScope, $routeParams, $window, $
 });
 
 app.controller('listUserCtrl', function($scope, $rootScope, $location, $q, $routeParams, $filter, ngTableParams, $window, $cookieStore, Data) {
-
     Data.get('users?token=' + $routeParams.token).then(function(results) {
         var data = results;
         $scope.tableParams = new ngTableParams({

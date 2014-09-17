@@ -16,7 +16,7 @@ class HomeController extends AppController
         parent::__construct();
     }
 
-       public function main()
+    public function main()
     {
         if ($_GET['token'] == $this->f3->get('SESSION.token'))
         {
@@ -34,6 +34,15 @@ class HomeController extends AppController
                 'countTheme' => $countTheme,
                 'countGroup' => $countGroup
             ));
+        }
+    }
+
+    public function deleteTheme()
+    {
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $link = DOCUMENT_ROOT . 'files/' . $_GET['file'];
+            unlink($link);
         }
     }
 

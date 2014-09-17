@@ -1,6 +1,6 @@
 app.controller('loginCtrl', function($scope, $rootScope, $location, $http, $cookieStore, Data) {
     if ($cookieStore.get('token')) {
-        $location.path('/');
+        $location.path();
     }
     $scope.login = {};
     $scope.doLogin = function(data) {

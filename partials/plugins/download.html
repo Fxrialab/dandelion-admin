@@ -4,8 +4,11 @@
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-user"></i> <a href="#!/themes"> User</a>
+                </li>
                 <li class="active">
-                    <i class="fa fa-dashboard"></i> Themes
+                    <i class="fa fa-user"></i> Download
                 </li>
             </ol>
         </div>
@@ -17,15 +20,15 @@
 
         <div class="col-lg-12">
             <div style="margin-bottom: 20px; text-align: right">
-                <a href="#!/themes_download/{{token}}" class="btn btn-default">Download theme</a>
-                <a href="#!/themes_upload/{{token}}" class="btn btn-primary">Upload theme</a>
+                <a href="#!/download/{{token}}" class="btn btn-default">Download theme</a>
+                <a href="#!/upload/{{token}}" class="btn btn-primary">Upload theme</a>
             </div>
         </div>
 
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Plugins</h3>
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Themes</h3>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -34,16 +37,14 @@
                                 <td data-title="'Name'">
                                     {{theme.name}}
                                 </td>
-                                <td data-title="'File'">
-                                    {{theme.file}}
-                                </td>
                                 <td data-title="'Size'">
                                     {{theme.size}}
                                 </td>
+                                <td data-title="'Download'">
+                                    {{theme.numberDown}}
+                                </td>
                                 <td data-title="'Action'">
-                                    <a ng-click="detail(theme.recordID)">View</a> - 
-                                    <a ng-click="install(theme.recordID)">{{theme.status}}</a> - 
-                                    <a ng-click="remove(theme.recordID)">Remove</a>
+                                    <a ng-click="buynow(theme.recordID)">Buy now</a> 
                                 </td>
                             </tr>
                         </table>

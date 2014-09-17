@@ -36,10 +36,10 @@
     <body ng-cloak="">
 
         <div id="{{wrapper}}">
-            <!-- Navigation -->
 
+            <!-- Navigation -->
             <div ng-if='authenticated' ng-include src="'partials/nav.html'"></div>
-            <div id="page-wrapper" data-ng-view="">
+            <div id="page-wrapper" data-ng-view="" ng-class="{ 'bg': authenticated }">
 
             </div>
             <!-- /#page-wrapper -->
@@ -73,8 +73,11 @@
     <script src="app/controllers/users.js"></script>
     <script src="app/controllers/posts.js"></script>
     <script src="app/controllers/themes.js"></script>
+    <script src="app/controllers/plugin.js"></script>
     <script src="app/controllers/dashboard.js"></script>
     <script src="app/controllers/group.js"></script>
+    <script src="app/controllers/photo.js"></script>
+    <script src="app/controllers/upload.js"></script>
     <script src="js/libs/jquery-1.11.0.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>
 

@@ -13,8 +13,9 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'partials/dashboard.html'
         })
                 .when('/users/:token', {
+            name: 'Name',
             controller: 'listUserCtrl',
-            templateUrl: 'partials/users/list.html'
+            templateUrl: 'partials/users/list.html',
         })
                 .when('/user/:id/:token', {
             controller: 'detailUserCtrl',
@@ -24,10 +25,6 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'listPostCtrl',
             templateUrl: 'partials/posts/list.html'
         })
-//                .when('/comments/:token', {
-//            controller: 'listCommentCtrl',
-//            templateUrl: 'partials/posts/comment.html'
-//        })
                 .when('/comments/:sort/:token', {
             controller: 'listCommentCtrl',
             templateUrl: 'partials/posts/comment.html'
@@ -40,12 +37,27 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'detailThemeCtrl',
             templateUrl: 'partials/themes/detail.html'
         })
-                .when('/upload/:token', {
+                .when('/themes_upload/:token', {
             templateUrl: 'partials/themes/upload.html'
         })
-                .when('/download/:token', {
+                .when('/themes_download/:token', {
             controller: 'downloadThemeCtrl',
             templateUrl: 'partials/themes/download.html'
+        })
+                .when('/plugins/:token', {
+            controller: 'listPluginCtrl',
+            templateUrl: 'partials/plugins/list.html'
+        })
+                .when('/plugins/:id/:token', {
+            controller: 'detailThemeCtrl',
+            templateUrl: 'partials/plugins/detail.html'
+        })
+                .when('/plugins_upload/:token', {
+            templateUrl: 'partials/plugins/upload.html'
+        })
+                .when('/plugins_download/:token', {
+            controller: 'downloadPluginCtrl',
+            templateUrl: 'partials/plugins/download.html'
         })
                 .when('/profile/:token', {
             controller: 'profileCtrl',
@@ -54,6 +66,10 @@ app.config(['$routeProvider', '$locationProvider',
                 .when('/groups/:token', {
             controller: 'listGroupCtrl',
             templateUrl: 'partials/groups/list.html'
+        })
+                .when('/photos/:token', {
+            controller: 'listPhotoCtrl',
+            templateUrl: 'partials/photos/list.html'
         })
                 .when('/error', {
             templateUrl: 'partials/error.html'
@@ -65,11 +81,16 @@ app.config(['$routeProvider', '$locationProvider',
             redirectTo: '/error'
         });
     }])
-        .run(function($rootScope, $location, $window, Data, $routeParams, $cookieStore) {
+        .run(function($rootScope, $location, $route, $window, Data, $routeParams, $cookieStore) {
 
     $rootScope.$on("$routeChangeStart", function(event, next, current) {
         $rootScope.authenticated = false;
         $rootScope.wrapper = '';
+//        $rootScope.$location = $location;
+        $rootScope.isActive = function(url) {
+            var active = (url === $location.path());
+            return active;
+        };
         var token = $cookieStore.get('token');
         if (token) {
             Data.get('session?token=' + token).then(function(results) {
@@ -91,11 +112,6 @@ app.config(['$routeProvider', '$locationProvider',
         } else {
             $location.path("/login");
         }
-
-
-
-
-
     });
 });
 

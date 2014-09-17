@@ -1,61 +1,66 @@
-'use strict';
 
-var isOnGitHub = window.location.hostname === 'blueimp.github.io',
-        url = 'server/php/upload.php';
+app.controller('UploadThemeCtrl',
+        function($scope, $http, $filter, $window, $cookieStore, Data) {
+            $scope.options = {
+                url: 'api/uploadTheme',
+            };
+            $scope.file = function() {
+                var data = {
+                    token: $cookieStore.get('token'),
+                    name: $scope.queue.title,
+                    file_name: $scope.queue.filename,
+                    file_size: $scope.queue.filesize,
+                    description: $scope.queue.description
+                };
+                Data.post('saveTheme', data).then(function(results) {
+                    Data.toast(results);
 
-var app = angular.module('dandelionAdminApp', [
-    'blueimp.fileupload'
-]);
-app.controller('UploadCtrl', [
-    '$scope', '$http', '$filter', '$window',
-    function($scope, $http) {
-        $scope.options = {
-            url: url
+                });
+            };
+        }
+);
+app.controller('UploadPluginCtrl',
+        function($scope, $http, $filter, $window, $cookieStore, Data) {
+            $scope.options = {
+                url: 'api/uploadPlugin',
+            };
+            $scope.file = function() {
+                var data = {
+                    token: $cookieStore.get('token'),
+                    name: $scope.queue.title,
+                    file_name: $scope.queue.filename,
+                    file_size: $scope.queue.filesize,
+                    description: $scope.queue.description
+                };
+                Data.post('saveTheme', data).then(function(results) {
+                    Data.toast(results);
+
+                });
+            };
+        }
+);
+app.controller('FileDestroyCtrl', function($scope, $http, $cookieStore, Data) {
+    var file = $scope.file,
+            state;
+    if (file.url) {
+        file.$state = function() {
+            return state;
         };
-        if (!isOnGitHub) {
-            $scope.loadingFiles = true;
-            $http.get(url)
-                    .then(
-                    function(response) {
-                        $scope.loadingFiles = false;
-                        $scope.queue = response.data.files || [];
+        file.$destroy = function() {
+            state = 'pending';
+            Data.url('deleteFile?file=' + file.file_name + '&token=' + $cookieStore.get('token')).then(
+                    function() {
+                        state = 'resolved';
+                        $scope.clear(file);
                     },
                     function() {
-                        $scope.loadingFiles = false;
+                        state = 'rejected';
                     }
             );
-        }
+        };
+    } else if (!file.$cancel && !file._index) {
+        file.$cancel = function() {
+            $scope.clear(file);
+        };
     }
-])
-
-app.controller('FileDestroyCtrl', [
-    '$scope', '$http',
-    function($scope, $http) {
-        var file = $scope.file,
-                state;
-        if (file.url) {
-            file.$state = function() {
-                return state;
-            };
-            file.$destroy = function() {
-                state = 'pending';
-                return $http({
-                    url: file.deleteUrl,
-                    method: file.deleteType
-                }).then(
-                        function() {
-                            state = 'resolved';
-                            $scope.clear(file);
-                        },
-                        function() {
-                            state = 'rejected';
-                        }
-                );
-            };
-        } else if (!file.$cancel && !file._index) {
-            file.$cancel = function() {
-                $scope.clear(file);
-            };
-        }
-    }
-]);
+});
