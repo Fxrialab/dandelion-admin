@@ -1,5 +1,5 @@
 
-app.controller('UploadThemeCtrl',
+Dandelion.controller('UploadThemeCtrl',
         function($scope, $http, $filter, $window, $cookieStore, Data) {
             $scope.options = {
                 url: 'api/uploadTheme',
@@ -19,7 +19,7 @@ app.controller('UploadThemeCtrl',
             };
         }
 );
-app.controller('UploadPluginCtrl',
+Dandelion.controller('UploadPluginCtrl',
         function($scope, $http, $filter, $window, $cookieStore, Data) {
             $scope.options = {
                 url: 'api/uploadPlugin',
@@ -39,7 +39,7 @@ app.controller('UploadPluginCtrl',
             };
         }
 );
-app.controller('FileDestroyCtrl', function($scope, $http, $cookieStore, Data) {
+Dandelion.controller('FileDestroyCtrl', function($scope, $http, $cookieStore, Data) {
     var file = $scope.file,
             state;
     if (file.url) {

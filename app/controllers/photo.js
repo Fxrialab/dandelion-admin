@@ -1,4 +1,4 @@
-app.controller('listPhotoCtrl', function($scope, Data, $cookieStore, ngTableParams, $filter, $dialogs, $modal, $rootScope, $routeParams) {
+Dandelion.controller('listPhotoCtrl', function($scope, Data, $cookieStore, ngTableParams, $filter, $dialogs, $modal, $rootScope, $routeParams) {
     getData();
     /**
      * find list Group

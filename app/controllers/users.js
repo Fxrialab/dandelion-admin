@@ -1,9 +1,9 @@
-app.controller('userCtrl', function($scope, $rootScope, $routeParams, $window, $location, $http, Data) {
+Dandelion.controller('userCtrl', function($scope, $rootScope, $routeParams, $window, $location, $http, Data) {
     //initially set those objects to null to avoid undefined error
     $rootScope.$rootScope = 'user';
 });
 
-app.controller('listUserCtrl', function($scope, $rootScope, $location, $q, $routeParams, $filter, ngTableParams, $window, $cookieStore, Data) {
+Dandelion.controller('listUserCtrl', function($scope, $rootScope, $location, $q, $routeParams, $filter, ngTableParams, $window, $cookieStore, Data) {
     Data.get('users?token=' + $routeParams.token).then(function(results) {
         var data = results;
         $scope.tableParams = new ngTableParams({
@@ -43,7 +43,7 @@ app.controller('listUserCtrl', function($scope, $rootScope, $location, $q, $rout
 
 });
 
-app.controller('detailUserCtrl', function($scope, $routeParams, ngTableParams, Data) {
+Dandelion.controller('detailUserCtrl', function($scope, $routeParams, ngTableParams, Data) {
     Data.get('user?id=' + $routeParams.id + '&token=' + $routeParams.token).then(function(results) {
         $scope.user = results.user;
         var data = results.status;

@@ -1,4 +1,4 @@
-app.factory("Data", ['$http', 'toaster',
+Dandelion.factory("Data", ['$http', 'toaster',
     function($http, toaster) { // This service connects to our REST API
 
         var serviceBase = '/api/';

@@ -1,10 +1,10 @@
-app.directive('focus', function() {
+Dandelion.directive('focus', function() {
     return function(scope, element) {
         element[0].focus();
     }      
 });
 
-app.directive('passwordMatch', [function () {
+Dandelion.directive('passwordMatch', [function () {
     return {
         restrict: 'A',
         scope:true,

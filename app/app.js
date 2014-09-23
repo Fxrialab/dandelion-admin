@@ -1,19 +1,30 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable', 'ngCookies', 'blueimp.fileupload', 'ui.bootstrap', 'dialogs', 'ngTableExport']);
+var Dandelion = angular.module('dandelionAdminApp', ['ngRoute', 'ngAnimate', 'toaster', 'ngTable', 'ngCookies', 'blueimp.fileupload', 'ui.bootstrap', 'dialogs', 'ngTableExport']);
 
-app.config(['$routeProvider', '$locationProvider',
+Dandelion.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(false).hashPrefix('!');
         $routeProvider.
                 when('/login', {
-            title: 'Login',
             templateUrl: 'partials/login.html',
             controller: 'loginCtrl'
         })
                 .when('/dashboard/:token', {
             templateUrl: 'partials/dashboard.html'
         })
+                         .when('/admin/add/:token', {
+            controller: 'authCtrl',
+            templateUrl: 'partials/admin/add.html'
+        })
+                .when('/admin/:token', {
+            controller: 'listAdminCtrl',
+            templateUrl: 'partials/admin/list.html',
+        })
+                .when('/admin/:id/:token', {
+            controller: 'profileCtrl',
+            templateUrl: 'partials/admin/detail.html'
+        })
+
                 .when('/users/:token', {
-            name: 'Name',
             controller: 'listUserCtrl',
             templateUrl: 'partials/users/list.html',
         })

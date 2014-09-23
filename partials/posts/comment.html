@@ -25,14 +25,14 @@
                     <div class="col-lg-2">
                         <a class="btn btn-primary mb10" ng-mousedown="csv.generate()" ng-href="{{csv.link()}}" download="comment.csv">Export to CSV</a>
                     </div>
-                    <div class="col-lg-10">
+<!--                    <div class="col-lg-10">
                         <ul class="nav nav-pills">
                             <li><a href="#!/comments/all/{{token}}">All</a></li>
                             <li><a href="#!/comments/today/{{token}}">Today</a></li>
                             <li><a href="#!/comments/week/{{token}}">Week</a></li>
                             <li><a href="#!/comments/month/{{token}}">Month</a></li>
                         </ul>
-                    </div>
+                    </div>-->
                     <div class="table-responsive">
                         <table ng-table="tableParams" show-filter="true" template-pagination="pager"  export-csv="csv" class="table table-bordered table-hover table-striped">
                             <tr ng-repeat="comment in $data">

@@ -29,14 +29,16 @@ class AdminController extends AppController
 
     public function register()
     {
-        if ($this->isLogin())
+        if ($this->f3->get('SESSION.token') != $_GET['token'])
         {
             $data = json_decode(file_get_contents("php://input"));
             $array = array(
-                'username' => $data->username,
-                'password' => $this->EncryptionHelper->HashPassword($data->password),
-                'email' => $data->email,
-                'fullName' => $data->fullName,
+                'username' => $data->data->username,
+                'password' => $this->EncryptionHelper->HashPassword($data->data->password),
+                'email' => $data->data->email,
+                'fullName' => $data->data->name,
+                'phone' => $data->data->phone,
+                'address' => $data->data->address,
                 'status' => 0,
                 'role' => 'admin',
                 'published' => time(),
@@ -47,11 +49,7 @@ class AdminController extends AppController
                 $model = $this->facade->findByPk('admin', $admin);
                 echo json_encode(array(
                     'id' => $model->recordID,
-                    'fullName' => $model->data->fullName,
-                    'username' => $model->data->username,
-                    'status' => $model->data->status,
-                    'role' => $model->data->role,
-                    'published' => date('Y/m/d', $model->data->published)
+                    'status' => 'success'
                 ));
             }
         }
@@ -59,7 +57,7 @@ class AdminController extends AppController
 
     public function admin()
     {
-        if ($this->isLogin())
+        if ($this->f3->get('SESSION.token') == $_GET['token'])
         {
             $obj = new ObjectHandler();
             $model = $this->facade->findAll('admin', $obj);
@@ -69,12 +67,15 @@ class AdminController extends AppController
                 foreach ($model as $key => $value)
                 {
                     $arr[] = array(
-                        'id' => $value->recordID,
+                        'recordID' => $value->recordID,
+                        'id' => str_replace(':', '_', $value->recordID),
                         'username' => $value->data->username,
                         'email' => $value->data->email,
                         'name' => $value->data->fullName,
-                        'status' => $value->data->status,
+                        'status' => $value->data->status == '1' ? "Confirmed" : "Pending",
                         'role' => $value->data->role,
+                        'phone' => $value->data->phone,
+                        'address' => $value->data->address,
                         'published' => date('Y/m/d', $value->data->published)
                     );
                 }
@@ -202,8 +203,7 @@ class AdminController extends AppController
 
     public function delete()
     {
-        $data = json_decode(file_get_contents("php://input"));
-        $delete = $this->facade->deleteByPk('admin', $data->id);
+        $delete = $this->facade->deleteByPk('admin', $_GET['id']);
         if (!empty($delete))
             echo '1';
     }
@@ -244,19 +244,46 @@ class AdminController extends AppController
 
     public function profile()
     {
-        $userID = $this->f3->get('SESSION.userID');
-        $profile = $this->facade->findByPk('admin', $userID);
-        if (!empty($profile))
-            echo json_encode(array(
-                'id' => $profile->recordID,
-                'name' => $profile->data->fullName,
-                'username' => $profile->data->username,
-                'email' => $profile->data->email,
-                'firstName' => $profile->data->firstName,
-                'lastName' => $profile->data->lastName,
-                'published' => $profile->data->published,
-                'role' => $profile->data->role,
-            ));
+        if ($this->f3->get('SESSION.token') == $_GET['token'])
+        {
+            if (!empty($_GET['id']))
+                $userID = $_GET['id'];
+            else
+                $userID = $this->f3->get('SESSION.userID');
+            $profile = $this->facade->findByPk('admin', $userID);
+            if (!empty($profile))
+                echo json_encode(array(
+                    'id' => $profile->recordID,
+                    'username' => $profile->data->username,
+                    'name' => $profile->data->fullName,
+                    'username' => $profile->data->username,
+                    'email' => $profile->data->email,
+                    'published' => $profile->data->published,
+                    'role' => $profile->data->role,
+                ));
+        }
+    }
+    
+     public function adminactive()
+    {
+        if ($_GET['token'] == $this->f3->get('SESSION.token'))
+        {
+            $model = $this->facade->findByPk('admin', $_GET['id']);
+            if (!empty($model))
+            {
+                if ($model->data->status == 1)
+                    $active = 0;
+                else
+                    $active = 1;
+                $update = $this->facade->updateByAttributes('admin', array('status' => $active), array('@rid' => '#' . $model->recordID));
+                if (!empty($update))
+                    echo json_encode(array(
+                        'recordID' => $model->recordID,
+                        'id' => str_replace(':', '_', $model->recordID),
+                        'status' => $active == 1 ? "Confirmed" : "Pending"
+                    ));
+            }
+        }
     }
 
 }

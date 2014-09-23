@@ -34,11 +34,14 @@
             <li ng-class="{active: isActive('/dashboard/{{token}}')}">
                 <a href="#!/dashboard/{{token}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
             </li>
+            <li ng-class="{active: isActive('/admin/{{token}}')}">
+                <a href="#!/admin/{{token}}"><i class="fa fa-fw fa-user"></i> Adminstrator</a>
+            </li>
             <li ng-class="{active: isActive('/users/{{token}}')}">
-                <a href="#!/users/{{token}}"><i class="fa fa-fw fa-bar-chart-o"></i> Users</a>
+                <a href="#!/users/{{token}}"><i class="fa fa-fw fa-user"></i> Users</a>
             </li>
             <li ng-class="{active: isActive('/themes/{{token}}')}">
-                <a href="#!/themes/{{token}}"><i class="fa fa-fw fa-table"></i> Themes</a>
+                <a href="#!/themes/{{token}}"><i class="fa fa-fw fa-picture-o"></i> Themes</a>
             </li>
             <li ng-class="{active: isActive('/plugins/{{token}}')}">
                 <a href="#!/plugins/{{token}}"><i class="fa fa-fw fa-table"></i> Plugins</a>

@@ -1,9 +1,9 @@
 <div class="breadcrumbs" id="breadcrumbs">
     <ul class="breadcrumb">
         <li>
-            <a href="#">Home</a>
+            <a href="/">Home</a>
         </li>
-        <li class="active">SignUp</li>
+        <li class="active">Add User</li>
     </ul>
 </div>
 <div class="page-content">
@@ -13,17 +13,13 @@
             <div id="login-box" class="login-box visible widget-box no-border">
                 <div class="widget-body">
                     <div class="widget-main">
-                        <h4 class="header blue lighter bigger">
-                            Signup for AngularCode
-                        </h4>
-                        <br/>
                         <form name="signupForm" class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label class="col-sm-5 control-label no-padding-right" for="username">Username</label>
                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                         <input type="text" class="form-control" placeholder="Username" name="username" ng-model="signup.username" focus/>
-                                        <span ng-show="signupForm.username.$error.username" class="help-inline">Email is not valid</span> 
+                                        <span ng-show="signupForm.username.$dirty && signupForm.username.$invalid" class="help-inline">Username is not valid</span> 
                                     </span>
                                 </div>
                             </div>
@@ -91,14 +87,13 @@
                             </div>
                             </fieldset>
                             <span class="lbl col-sm-5"> </span>
-                            <div class="col-sm-7">Already have an account? <a href="#/login">SignIn</a>
-                            </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
             </div>
-
         </div>
+
     </div>
+</div>
 </div>
 <!-- /.page-content -->

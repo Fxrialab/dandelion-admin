@@ -1,4 +1,4 @@
-app.controller('listPluginCtrl', function($scope, ngTableParams, Data, $cookieStore, $dialogs, $modal, $rootScope) {
+Dandelion.controller('listPluginCtrl', function($scope, ngTableParams, Data, $cookieStore, $dialogs, $modal, $rootScope) {
     getData();
     /**
      * Comment
@@ -62,13 +62,13 @@ app.controller('listPluginCtrl', function($scope, ngTableParams, Data, $cookieSt
 });
 
 
-app.controller('detailPluginCtrl', function($scope, $rootScope, ngTableParams, Data, $cookieStore, $modalInstance, $routeParams, listItem) {
+Dandelion.controller('detailPluginCtrl', function($scope, $rootScope, ngTableParams, Data, $cookieStore, $modalInstance, $routeParams, listItem) {
     $rootScope.listItem = listItem;
     $scope.cancel = function() {
         $modalInstance.dismiss('canceled');
     }; // end cancel
 });
-app.controller('downloadPluginCtrl', function($scope, ngTableParams, Data, $cookieStore) {
+Dandelion.controller('downloadPluginCtrl', function($scope, ngTableParams, Data, $cookieStore) {
     Data.get('themes').then(function(response) {
         $scope.data = response;
         var data = response;

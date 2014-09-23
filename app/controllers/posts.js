@@ -1,4 +1,4 @@
-app.controller('listPostCtrl', function($scope, $rootScope, ngTableParams, $filter, $routeParams, $cookieStore, Data) {
+Dandelion.controller('listPostCtrl', function($scope, $rootScope, ngTableParams, $filter, $routeParams, $cookieStore, Data) {
     Data.get('posts?token=' + $routeParams.token).then(function(results) {
         var data = results;
         $scope.tableParams = new ngTableParams({
@@ -31,7 +31,7 @@ app.controller('listPostCtrl', function($scope, $rootScope, ngTableParams, $filt
 
 });
 
-app.controller('listCommentCtrl', function($scope, ngTableParams, $filter, $routeParams, Data) {
+Dandelion.controller('listCommentCtrl', function($scope, ngTableParams, $filter, $routeParams, Data) {
     function getData() {
         Data.get('comments?sort=' + $routeParams.sort + '&token=' + $routeParams.token).then(function(results) {
             var data = results;
